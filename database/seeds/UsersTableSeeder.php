@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -23,5 +24,13 @@ class UsersTableSeeder extends Seeder
             'user_id'  => 3,
         ]);
 
+       User::create([
+            'name' => "admin",
+            'email' => "admin@email.com",
+            'password' => Hash::make("admin"),
+
+        ]);
+
     }
+
 }
