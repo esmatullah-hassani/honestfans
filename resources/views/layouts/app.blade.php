@@ -88,22 +88,24 @@
                     <div class="navbar-item" >
                         <div class="buttons mobile-navbar-menu" >
                         
-                            <a class="navbar-item" href="{{ route('chats') }}">
+                            
+
+                            <a class="navbar-item" href="{{ route('posts') }}" title="home">
+                                <i class="fas fa-home"></i>
+                            </a>
+                            
+                            <a class="navbar-item" href="{{ route('chats') }}" title="Messanger">
                                 <i class="fas fa-comment-dots"></i>
                             </a>
 
-                            <a class="navbar-item" href="{{ route('posts') }}">
-                                <i class="fas fa-home"></i>
-                            </a>
-
-                            <a class="navbar-item" href="{{ route('posts.create') }}">
+                            <a class="navbar-item" href="{{ route('posts.create') }}" title="New post">
                                 <i class="fas fa-camera-retro"></i>
                             </a>
                             
-                            <a class="navbar-item" href="{{ route('posts.following') }}">
+                            <a class="navbar-item" href="{{ route('posts.following') }}" title="Followers">
                                 <i class="fas fa-user-friends"></i>
                             </a>
-                            <a class="navbar-item" href="{{ route('posts.liked') }}">
+                            <a class="navbar-item" href="{{ route('posts.liked') }}" title="Posts like">
                                 <i class="fas fa-heart "  ></i>
                             </a>
                             <div>
