@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Follow;
+use App\Jobs\VerifyEmailJob;
 use App\Mail\VerifyEmailCode;
 use App\NotVerifyUser;
 use Exception;
@@ -145,7 +146,11 @@ class UsersController extends Controller
                 $email = $request->email;
                 $name = $request->name;
                 $id   = $not_v_user->id;
-                Mail::to($email)->send(new VerifyEmailCode($email,$name,$id));
+
+                $job = (new VerifyEmailJob($email,$name,$id))->delay(5);
+
+                $this->dispatch($job);
+                
                 return view("auth.verifyviewuser",compact('email','name','id'));
             }
             catch(Exception $er){
@@ -163,8 +168,10 @@ class UsersController extends Controller
      */
     public function sendEmail($email,$name,$id)
     {
-        Mail::to($email)->send(new VerifyEmailCode($email,$name,$id));
-            return view("auth.verifyviewuser",compact('email','name','id'));
+        $job = (new VerifyEmailJob($email,$name,$id))->delay(5);
+
+        $this->dispatch($job);
+        return view("auth.verifyviewuser",compact('email','name','id'));
     }
 
     /**

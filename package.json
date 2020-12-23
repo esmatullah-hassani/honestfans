@@ -28,7 +28,8 @@
         "normalize.css": "^8.0.1",
         "stylelint": "^9.10.1",
         "stylelint-scss": "^3.18.0",
-        "timeago.js": "^4.0.2"
+        "timeago.js": "^4.0.2",
+        "vue-router": "^3.4.9"
     },
     "stylelint": {
         "extends": "stylelint-config-recommended-scss"

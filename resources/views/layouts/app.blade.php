@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="{{asset('modal/css/uikit.min.css')}}">
    
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/application.css') }}" rel="stylesheet">
     <style>
         Input:focus{
             outline: none;
@@ -146,7 +146,7 @@
 </div>
 @include('sweetalert::alert')
 @include('layouts.script')
-    
+    <script src="{{mix('js/app.js')}}"></script>
     <script src="{{ asset('js/application.js') }}"></script>
     <script defer src="{{ asset('js/all.js')}}" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1"
         crossorigin="anonymous"></script>

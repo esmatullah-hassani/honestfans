@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
 
@@ -75,5 +76,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
     })->name('get-video');
+
+    Route::get("/chats",[ChatController::class,'index']);
 
 });
