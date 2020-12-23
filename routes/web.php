@@ -77,6 +77,6 @@ Route::middleware(['auth'])->group(function () {
 
     })->name('get-video');
 
-    Route::get("/chats",[ChatController::class,'index']);
+    Route::get("/chats",[ChatController::class,'index'])->name("chats");
 
 });

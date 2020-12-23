@@ -87,6 +87,10 @@
                 <div class="navbar-end" >
                     <div class="navbar-item" >
                         <div class="buttons mobile-navbar-menu" >
+                        
+                            <a class="navbar-item" href="{{ route('chats') }}">
+                                <i class="fas fa-comment-dots"></i>
+                            </a>
 
                             <a class="navbar-item" href="{{ route('posts') }}">
                                 <i class="fas fa-home"></i>

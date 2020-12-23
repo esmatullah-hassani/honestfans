@@ -1758,10 +1758,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user', 'others', 'pusherKey', 'pusherCluster'],
-  created: function created() {
-    console.log(this.others);
+  name: "ChatContent",
+  methods: {
+    userVideoCall: function userVideoCall(id) {
+      alert(id);
+    }
   }
 });
 
@@ -37450,7 +37455,21 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm._m(0, true)
+              _c("div", { staticClass: "col-md-2" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "mp btn-link",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.userVideoCall(user.id)
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-video" })]
+                )
+              ])
             ]),
             _vm._v(" "),
             _c("br")
@@ -37463,16 +37482,7 @@ var render = function() {
     _c("div", { staticClass: "col-md-6" }, [_c("router-view")], 1)
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2" }, [
-      _c("i", { staticClass: "fas fa-video" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -21,7 +21,9 @@
                             </router-link>
                         </div>
                         <div class="col-md-2">
-                            <i class="fas fa-video"></i>
+                            <button type="button" class="mp btn-link" @click="userVideoCall(user.id)">
+                                <i class="fas fa-video"  ></i>
+                            </button>
                         </div>
                     </div>
                     
@@ -40,8 +42,11 @@
 <script>
 export default {
     props: ['user', 'others', 'pusherKey', 'pusherCluster'],
-    created(){
-        console.log(this.others);
+    name:"ChatContent",
+    methods:{
+        userVideoCall(id){
+            alert(id);
+        }
     }
 
 }
