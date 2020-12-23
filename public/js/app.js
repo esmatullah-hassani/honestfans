@@ -1732,7 +1732,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user', 'others', 'pusherKey', 'pusherCluster'],
+  created: function created() {
+    console.log(this.others);
+  }
+});
 
 /***/ }),
 
@@ -37350,16 +37381,98 @@ var render = function() {
   return _c("div", { staticClass: "container row" }, [
     _c("div", { staticClass: "col-md-2" }),
     _vm._v(" "),
-    _c("div", { staticClass: "col-md-6" }, [
-      _vm._v("\n        This is the users\n    ")
-    ]),
+    _c(
+      "div",
+      {
+        staticClass: "col-md-4",
+        staticStyle: { "overflow-y": "scroll", "max-height": "500px" }
+      },
+      _vm._l(_vm.others, function(user) {
+        return _c(
+          "div",
+          {
+            key: user.id,
+            staticClass: "row",
+            staticStyle: {
+              display: "inline-block",
+              "margin-top": "10px",
+              width: "100%"
+            }
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-10" },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticStyle: { width: "56px", height: "56px" },
+                      attrs: { to: "", tabindex: "0" }
+                    },
+                    [
+                      user.social_path != null
+                        ? _c("img", {
+                            staticClass: "circle-user-image-32",
+                            attrs: {
+                              alt: "profile picture",
+                              "data-testid": "user-avatar",
+                              draggable: "false",
+                              src: user.social_path
+                            }
+                          })
+                        : _c("img", {
+                            staticClass: "circle-user-image-32",
+                            attrs: {
+                              alt: "profile picture",
+                              "data-testid": "user-avatar",
+                              draggable: "false",
+                              src: ""
+                            }
+                          })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "margin-left-10 color-dark",
+                      attrs: { to: "{user.id}" }
+                    },
+                    [
+                      user.display_name == null
+                        ? _c("span", [_vm._v(_vm._s(user.name))])
+                        : _c("span", [_vm._v(_vm._s(user.display_name))])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm._m(0, true)
+            ]),
+            _vm._v(" "),
+            _c("br")
+          ]
+        )
+      }),
+      0
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "col-md-2" }, [_c("router-view")], 1),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-2" })
+    _c("div", { staticClass: "col-md-6" }, [_c("router-view")], 1)
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-2" }, [
+      _c("i", { staticClass: "fas fa-video" })
+    ])
+  }
+]
 render._withStripped = true
 
 

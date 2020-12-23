@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div>this</div>
-
 <div id="app" class="container">
     <chat-content :user="{{ $user }}" :others="{{ $others }}"
      pusher-key="{{ config('broadcasting.connections.pusher.key') }}"

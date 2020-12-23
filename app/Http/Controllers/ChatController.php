@@ -11,10 +11,10 @@ class ChatController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $others = User::where('id', '!=', $user->id)->pluck('name', 'id');
+        $others = User::where('id', '!=', $user->id)->get();
         
         return view('chats.chat')->with([
-            'user' => collect($request->user()->only(['id', 'name'])),
+            'user' => collect($request->user()),
             'others' => $others
         ]);
     }
