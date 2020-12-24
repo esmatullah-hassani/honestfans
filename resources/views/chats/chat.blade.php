@@ -2,13 +2,16 @@
 
 @section('content')
 <div id="app" class="container">
-    <chat-content :user="{{ $user }}" :others="{{ $others }}"
-     pusher-key="{{ config('broadcasting.connections.pusher.key') }}"
-     pusher-cluster="{{ config('broadcasting.connections.pusher.options.cluster') }}">
+    <chat-content :allusers="{{ $users }}" :authUserId="{{ auth()->id() }}" turn_url="{{ env('TURN_SERVER_URL') }}"
+        turn_username="{{ env('TURN_SERVER_USERNAME') }}" turn_credential="{{ env('TURN_SERVER_CREDENTIAL') }}">
     </chat-content>
 </div>
 
 @include('layouts.script')
+<script>
 
+    window.csrfToken = "{{csrf_token()}}";
+
+</script>
 
 @endsection

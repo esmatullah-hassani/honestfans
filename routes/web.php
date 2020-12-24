@@ -12,6 +12,8 @@
 */
 
 use App\Http\Controllers\ChatController;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
 
@@ -77,6 +79,17 @@ Route::middleware(['auth'])->group(function () {
 
     })->name('get-video');
 
-    Route::get("/chats",[ChatController::class,'index'])->name("chats");
+   // Route::get("/chats",[ChatController::class,'index'])->name("chats");
 
 });
+Route::get('/video-chat', function () {
+    // fetch all users apart from the authenticated user
+    $users = User::where('id', '<>', Auth::id())->get();
+    return view('chats.chat', ['users' => $users]);
+})->name("chats");
+
+// Endpoints to call or receive calls.
+Route::post('/video/call-user', [ChatController::class,'callUser']);
+Route::post('/video/accept-call', [ChatController::class,'acceptCall']);
+
+//Route::post('auth/video_chat', [ChatController::class,'videoChat']);

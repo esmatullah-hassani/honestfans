@@ -1,12 +1,25 @@
 <template>
-    <div class="container"  >
-        
-        <div class="row">
-            <div class="col-md-2"></div>
-        
-            
-            <div class="col-md-6" >
-                <!--Placing Video Call-->
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="btn-group" role="group">
+            <button
+              type="button"
+              class="btn btn-primary mr-2"
+              v-for="user in allusers"
+              :key="user.id"
+              @click="placeVideoCall(user.id, user.name)"
+            >
+              Call {{ user.name }}
+              <span class="badge badge-light">{{
+                getUserOnlineStatus(user.id)
+              }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!--Placing Video Call-->
       <div class="row mt-5" id="video-row">
         <div class="col-12 video-container" v-if="callPlaced">
           <video
@@ -82,54 +95,15 @@
         </div>
       </div>
       <!-- End of Incoming Call  -->
-                <router-view 
-                    :allusers="allusers"
-                    :authuserid="authuserid"
-                    :turn_url="turn_url"
-                    :turn_username="turn_username"
-                    :turn_credential="turn_credential"
-                />
-            </div>
-            <div class="col-md-4" style="overflow-y: scroll;max-height:500px; ">
-                <div class="row" style="display: inline-block; margin-top: 10px; width: 100%; " v-for="user in allusers" v-bind:key="user.id">
-                        
-                        <div class="row">
-                            <div class="col-md-10">
-                                <router-link to="" tabindex="0" style="width: 56px; height: 56px;">
-                    
-                                    <img v-if="user.social_path!=null" alt="profile picture" class="circle-user-image-32" data-testid="user-avatar" draggable="false" :src="user.social_path">
-                                
-                                <img v-else alt="profile picture" class="circle-user-image-32" data-testid="user-avatar" draggable="false" src="">
-                                
-                                </router-link>
-                                <router-link to="/" class="margin-left-10 color-dark" >
-                                <span v-if="user.display_name == null">{{user.name}}</span>
-                                <span v-else>{{user.display_name}}</span>
-                                
-                                </router-link>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="mp btn-link" @click="placeVideoCall(user.id, user.name)">
-                                    <i class="fas fa-video"  ></i>
-                                </button>
-                                
-                            </div>
-                        </div>
-                        
-                        <br>
-                        
-                    </div>
-            </div>
-        </div>
-        
     </div>
+  </div>
 </template>
 
 <script>
 import Peer from "simple-peer";
-import { getPermissions } from "../../helper";
+import { getPermissions } from "../../../helper";
 export default {
-   props: [
+  props: [
     "allusers",
     "authuserid",
     "turn_url",
@@ -254,9 +228,9 @@ export default {
         config: {
           iceServers: [
             {
-              urls: 'turn:numb.viagenie.ca',
-                credential: 'websitebeaver',
-                username: 'websitebeaver@email.com'
+              urls: this.turn_url,
+              username: this.turn_username,
+              credential: this.turn_credential,
             },
           ],
         },
@@ -272,7 +246,7 @@ export default {
           })
           .then(() => {})
           .catch((error) => {
-            console.log("error"+error);
+            console.log(error);
           });
       });
 
@@ -323,9 +297,9 @@ export default {
         config: {
           iceServers: [
             {
-                urls: 'turn:numb.viagenie.ca',
-                credential: 'websitebeaver',
-                username: 'websitebeaver@email.com'
+              urls: this.turn_url,
+              username: this.turn_username,
+              credential: this.turn_credential,
             },
           ],
         },
@@ -433,8 +407,8 @@ export default {
 
 <style scoped>
 #video-row {
-  width: 800px;
-  max-width: 120vw;
+  width: 700px;
+  max-width: 90vw;
 }
 
 #incoming-call-card {
@@ -454,7 +428,7 @@ export default {
 }
 
 .video-container .user-video {
-  width: 20%;
+  width: 30%;
   position: absolute;
   left: 10px;
   bottom: 10px;
