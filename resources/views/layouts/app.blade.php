@@ -38,7 +38,7 @@
     </style>
 </head>
 
-<body style="background-color: white;">
+<body style="background-color: white;" >
 <div class="row " style="max-width: 1200px;">
         
         <nav class="navbar " role="navigation" aria-label="main navigation"  style="position: fixed;width: 100%; ">

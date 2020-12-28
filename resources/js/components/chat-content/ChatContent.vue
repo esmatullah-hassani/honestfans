@@ -7,53 +7,53 @@
             
             <div class="col-md-6" >
                 <!--Placing Video Call-->
-      <div class="row mt-5" id="video-row">
-        <div class="col-12 video-container" v-if="callPlaced">
-          <video
-            ref="userVideo"
-            muted
-            playsinline
-            autoplay
-            class="cursor-pointer"
-            :class="isFocusMyself === true ? 'user-video' : 'partner-video'"
-            @click="toggleCameraArea"
-          />
-          <video
-            ref="partnerVideo"
-            playsinline
-            autoplay
-            class="cursor-pointer"
-            :class="isFocusMyself === true ? 'partner-video' : 'user-video'"
-            @click="toggleCameraArea"
-            v-if="videoCallParams.callAccepted"
-          />
-          <div class="partner-video" v-else>
-            <div v-if="callPartner" class="column items-center q-pt-xl">
-              <div class="col q-gutter-y-md text-center">
-                <p class="q-pt-md">
-                  <strong>{{ callPartner }}</strong>
-                </p>
-                <p>calling...</p>
+              <div class="row mt-5" id="video-row">
+                <div class="col-12 video-container" v-if="callPlaced">
+                  <video
+                    ref="userVideo"
+                    muted
+                    playsinline
+                    autoplay
+                    class="cursor-pointer"
+                    :class="isFocusMyself === true ? 'user-video' : 'partner-video'"
+                    @click="toggleCameraArea"
+                  />
+                  <video
+                    ref="partnerVideo"
+                    playsinline
+                    autoplay
+                    class="cursor-pointer"
+                    :class="isFocusMyself === true ? 'partner-video' : 'user-video'"
+                    @click="toggleCameraArea"
+                    v-if="videoCallParams.callAccepted"
+                  />
+                  <div class="partner-video" v-else>
+                    <div v-if="callPartner" class="column items-center q-pt-xl">
+                      <div class="col q-gutter-y-md text-center">
+                        <p class="q-pt-md">
+                          <strong>{{ callPartner }}</strong>
+                        </p>
+                        <p>calling...</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="action-btns">
+                    <button type="button" class="btn btn-info" @click="toggleMuteAudio">
+                      {{ mutedAudio ? "Unmute" : "Mute" }}
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary mx-4"
+                      @click="toggleMuteVideo"
+                    >
+                      {{ mutedVideo ? "ShowVideo" : "HideVideo" }}
+                    </button>
+                    <button type="button" class="btn btn-danger" @click="endCall">
+                      EndCall
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="action-btns">
-            <button type="button" class="btn btn-info" @click="toggleMuteAudio">
-              {{ mutedAudio ? "Unmute" : "Mute" }}
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary mx-4"
-              @click="toggleMuteVideo"
-            >
-              {{ mutedVideo ? "ShowVideo" : "HideVideo" }}
-            </button>
-            <button type="button" class="btn btn-danger" @click="endCall">
-              EndCall
-            </button>
-          </div>
-        </div>
-      </div>
       <!-- End of Placing Video Call  -->
 
       <!-- Incoming Call  -->
@@ -84,7 +84,7 @@
       <!-- End of Incoming Call  -->
                 <router-view 
                     :allusers="allusers"
-                    :authuserid="authuserid"
+                    :authuser="authuser"
                     :turn_url="turn_url"
                     :turn_username="turn_username"
                     :turn_credential="turn_credential"
@@ -99,10 +99,10 @@
                     
                                     <img v-if="user.social_path!=null" alt="profile picture" class="circle-user-image-32" data-testid="user-avatar" draggable="false" :src="user.social_path">
                                 
-                                <img v-else alt="profile picture" class="circle-user-image-32" data-testid="user-avatar" draggable="false" src="">
+                                <img v-else alt="profile picture" class="circle-user-image-32" data-testid="user-avatar" draggable="false" :src="'/images/avatar/'+user.image">
                                 
                                 </router-link>
-                                <router-link to="/" class="margin-left-10 color-dark" >
+                                <router-link :to="'/users/message/' + user.id" class="margin-left-10 color-dark" >
                                 <span v-if="user.display_name == null">{{user.name}}</span>
                                 <span v-else>{{user.display_name}}</span>
                                 
@@ -128,10 +128,11 @@
 <script>
 import Peer from "simple-peer";
 import { getPermissions } from "../../helper";
+import Echo from 'laravel-echo';
 export default {
    props: [
     "allusers",
-    "authuserid",
+    "authuser",
     "turn_url",
     "turn_username",
     "turn_credential",
@@ -160,12 +161,13 @@ export default {
   mounted() {
     this.initializeChannel(); // this initializes laravel echo
     this.initializeCallListeners(); // subscribes to video presence channel and listens to video events
+ 
   },
   computed: {
     incomingCallDialog() {
       if (
         this.videoCallParams.receivingCall &&
-        this.videoCallParams.caller !== this.authuserid
+        this.videoCallParams.caller !== this.authuser.id.id
       ) {
         return true;
       }
@@ -175,7 +177,7 @@ export default {
     callerDetails() {
       if (
         this.videoCallParams.caller &&
-        this.videoCallParams.caller !== this.authuserid
+        this.videoCallParams.caller !== this.authuser.id
       ) {
         const incomingCaller = this.allusers.filter(
           (user) => user.id === this.videoCallParams.caller
@@ -254,9 +256,9 @@ export default {
         config: {
           iceServers: [
             {
-              urls: 'turn:numb.viagenie.ca',
-                credential: 'websitebeaver',
-                username: 'websitebeaver@email.com'
+              urls: this.turn_url,
+              username: this.turn_username,
+              credential: this.turn_credential,
             },
           ],
         },
@@ -268,7 +270,7 @@ export default {
           .post("/video/call-user", {
             user_to_call: id,
             signal_data: data,
-            from: this.authuserid,
+            from: this.authuser.id.id,
           })
           .then(() => {})
           .catch((error) => {
@@ -288,7 +290,7 @@ export default {
       });
 
       this.videoCallParams.peer1.on("error", (err) => {
-        console.log(err);
+        console.log("Peer "+err);
       });
 
       this.videoCallParams.peer1.on("close", () => {
@@ -323,9 +325,9 @@ export default {
         config: {
           iceServers: [
             {
-                urls: 'turn:numb.viagenie.ca',
-                credential: 'websitebeaver',
-                username: 'websitebeaver@email.com'
+              urls: this.turn_url,
+              username: this.turn_username,
+              credential: this.turn_credential,
             },
           ],
         },
@@ -414,7 +416,7 @@ export default {
       if (!this.mutedVideo) this.toggleMuteVideo();
       if (!this.mutedAudio) this.toggleMuteAudio();
       this.stopStreamedVideo(this.$refs.userVideo);
-      if (this.authuserid === this.videoCallParams.caller) {
+      if (this.authuser.id === this.videoCallParams.caller) {
         this.videoCallParams.peer1.destroy();
       } else {
         this.videoCallParams.peer2.destroy();
@@ -433,8 +435,8 @@ export default {
 
 <style scoped>
 #video-row {
-  width: 800px;
-  max-width: 120vw;
+  width: 700px;
+  max-width: 90vw;
 }
 
 #incoming-call-card {
@@ -454,7 +456,7 @@ export default {
 }
 
 .video-container .user-video {
-  width: 20%;
+  width: 30%;
   position: absolute;
   left: 10px;
   bottom: 10px;

@@ -2,6 +2,8 @@ import VueRouter from 'vue-router';
 import Vue from 'vue';
 import IndexContent from '../components/chat-content/hero-content/IndexContent';
 import VideoChatContent from '../components/chat-content/hero-content/VideoChatContent';
+import MessageContent from '../components/chat-content/hero-content/MessageContent';
+
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -11,8 +13,12 @@ const router = new VueRouter({
             component:IndexContent,
         },
         {
-            path:"/users/:id",
+            path:"users/:id",
             component:VideoChatContent,
+        },
+        {
+            path:"/users/message/:id",
+            component:MessageContent
         }
     ]
 });

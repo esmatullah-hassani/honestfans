@@ -2,7 +2,7 @@
 
 @section('content')
 <div id="app" class="container">
-    <chat-content :allusers="{{ $users }}" :authUserId="{{ auth()->id() }}" turn_url="{{ env('TURN_SERVER_URL') }}"
+    <chat-content :allusers="{{ $users }}" :authUser="{{ auth()->user() }}" turn_url="{{ env('TURN_SERVER_URL') }}"
         turn_username="{{ env('TURN_SERVER_USERNAME') }}" turn_credential="{{ env('TURN_SERVER_CREDENTIAL') }}">
     </chat-content>
 </div>

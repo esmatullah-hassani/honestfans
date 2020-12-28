@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -91,5 +92,9 @@ Route::get('/video-chat', function () {
 // Endpoints to call or receive calls.
 Route::post('/video/call-user', [ChatController::class,'callUser']);
 Route::post('/video/accept-call', [ChatController::class,'acceptCall']);
+
+Route::get("/users/message/{user_1}/{user_2}",[MessageController::class,'index']);
+Route::post("/users/message",[MessageController::class,'store']);
+
 
 //Route::post('auth/video_chat', [ChatController::class,'videoChat']);

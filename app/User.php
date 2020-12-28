@@ -53,4 +53,11 @@ class User extends Authenticatable
     public function user_follows(){
         return $this->belongsTo(Follow::class,"id",'user_2');
     }
+
+    /**
+     * The user that has many messages
+     */
+    public function messages(){
+        return $this->hasMany(Message::class,'user_1','id');
+    }
 }
