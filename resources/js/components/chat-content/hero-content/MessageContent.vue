@@ -7,8 +7,8 @@
                 <div class="card-header msg_head">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <!-- <img v-if="user.social_path!=null" :src="user.social_path"   class="rounded-circle user_img_msg"> -->
-                            <!-- <img v-else :src="'/images/avatar/'+user.image"   class="rounded-circle user_img_msg"> -->
+                            <img v-if="user.social_path!=null" :src="user.social_path"   class="rounded-circle user_img_msg">
+                            <img v-else :src="'/images/avatar/'+user.image"   class="rounded-circle user_img_msg">
                             <span class="online_icon"></span>
                         </div>
                         <div class="user_info">
@@ -33,17 +33,18 @@
                 <div class="card-body msg_card_body">
                     
                    <div v-for="message in allMessages" v-bind:key="message.id">
-                       <div  class="d-flex justify-content-start mb-4">
+					   
+                       <div  v-if="message.user_1 == user.id" class="d-flex justify-content-start mb-4">
                             <div class="img_cont_msg">
-                                 <!-- <img v-if="user.social_path!=null" :src="user.social_path"   class="rounded-circle user_img_msg"> -->
-                                <!-- <img v-else :src="'/images/avatar/'+user.image"   class="rounded-circle user_img_msg"> -->
+                                 <img v-if="user.social_path!=null" :src="user.social_path"   class="rounded-circle user_img_msg">
+                                <img v-else :src="'/images/avatar/'+user.image"   class="rounded-circle user_img_msg">
                             </div>
                             <div class="msg_cotainer">
-                                {{message.content}}
+                                {{message.content}} 
                                 <span class="msg_time">8:40 AM, Today</span>
                             </div>
                         </div>
-                        <div  class="d-flex justify-content-end mb-4">
+                        <div v-else class="d-flex justify-content-end mb-4">
                             <div class="msg_cotainer_send">
                                 {{message.content}}
                                 <span class="msg_time_send">8:55 AM, Today</span>
@@ -61,7 +62,7 @@
                         <!-- <div class="input-group-append">
                             <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                         </div> -->
-                        <input name="" class="form-control type_msg" placeholder="Type your message..." v-model="message">
+                        <input name="" class="form-control type_msg" @keyup.enter="sendMessage" placeholder="Type your message..." v-model="message">
                             <span @click="sendMessage" class="input-group-text send_btn"><i class="fas fa-location-arrow" ></i></span>
                         
                     </div>
@@ -111,7 +112,8 @@ export default {
             .then(response => {
                 console.log(response);
                 this.message =null;
-                this.fetchMessage();
+				this.fetchMessage();
+				this.scrollToElement();
             })
 
 
@@ -122,29 +124,27 @@ export default {
                 this.allMessages = response.data.message;
                 this.user = response.data.user;
             })
-        },
+		},
+		scrollToElement() {
+			var container = this.$el.querySelector(".msg_card_body");
+			container.scrollTop = container.scrollHeight;
+		}
 
-    },
+	},
+	
     mounted(){
-        // Pusher.logToConsole = true;
-		// var pusher = new Pusher('74075fba8f6c86cdac5f', {
-		// cluster: 'ap2'
-		// });
-
-		// var channel = pusher.subscribe('message-sent');
-		// channel.bind('MessageSent', function(data) {
-		// console.log("This is for you "+data);
-		// });
+        this.scrollToElement();
          Echo.private("message-sent")
         .listen("MessageSent",(e)=>{
             this.allMessages.push(e.message);
-            window.scrollBy(0,99999);
-        });
+            this.scrollToElement();
+		});
+		
     },
     
     created(){
         this.user_2 = this.$route.params.id;
-        this.fetchMessage();
+		this.fetchMessage();
     }
 
 }

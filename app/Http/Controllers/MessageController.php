@@ -17,7 +17,7 @@ class MessageController extends Controller
     public function index($user_1,$user_2)
     {
         return  response([
-            'message'=>Message::where("user_1",$user_1)->where("user_2",$user_2)->get(),
+            'message'=>Message::where("user_1",$user_1)->orWhere("user_2",$user_1)->get(),
             'user' => User::find($user_2)
         ]);
     }

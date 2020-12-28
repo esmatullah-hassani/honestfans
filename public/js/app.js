@@ -2315,6 +2315,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2349,6 +2350,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.message = null;
 
         _this.fetchMessage();
+
+        _this.scrollToElement();
       });
     },
     fetchMessage: function fetchMessage() {
@@ -2358,23 +2361,20 @@ __webpack_require__.r(__webpack_exports__);
         _this2.allMessages = response.data.message;
         _this2.user = response.data.user;
       });
+    },
+    scrollToElement: function scrollToElement() {
+      var container = this.$el.querySelector(".msg_card_body");
+      container.scrollTop = container.scrollHeight;
     }
   },
   mounted: function mounted() {
     var _this3 = this;
 
-    // Pusher.logToConsole = true;
-    // var pusher = new Pusher('74075fba8f6c86cdac5f', {
-    // cluster: 'ap2'
-    // });
-    // var channel = pusher.subscribe('message-sent');
-    // channel.bind('MessageSent', function(data) {
-    // console.log("This is for you "+data);
-    // });
+    this.scrollToElement();
     Echo["private"]("message-sent").listen("MessageSent", function (e) {
       _this3.allMessages.push(e.message);
 
-      window.scrollBy(0, 99999);
+      _this3.scrollToElement();
     });
   },
   created: function created() {
@@ -54518,7 +54518,7 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "margin-left-10 color-dark",
-                        attrs: { to: "/users/message/" + user.id }
+                        attrs: { to: "/users-message/" + user.id }
                       },
                       [
                         user.display_name == null
@@ -54613,7 +54613,19 @@ var render = function() {
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header msg_head" }, [
               _c("div", { staticClass: "d-flex bd-highlight" }, [
-                _vm._m(0),
+                _c("div", { staticClass: "img_cont" }, [
+                  _vm.user.social_path != null
+                    ? _c("img", {
+                        staticClass: "rounded-circle user_img_msg",
+                        attrs: { src: _vm.user.social_path }
+                      })
+                    : _c("img", {
+                        staticClass: "rounded-circle user_img_msg",
+                        attrs: { src: "/images/avatar/" + _vm.user.image }
+                      }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "online_icon" })
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "user_info" }, [
                   _c("span", { staticStyle: { color: "black" } }, [
@@ -54623,12 +54635,12 @@ var render = function() {
                   _c("p", [_vm._v("1767 Messages")])
                 ]),
                 _vm._v(" "),
-                _vm._m(1)
+                _vm._m(0)
               ]),
               _vm._v(" "),
-              _vm._m(2),
+              _vm._m(1),
               _vm._v(" "),
-              _vm._m(3)
+              _vm._m(2)
             ]),
             _vm._v(" "),
             _c(
@@ -54636,55 +54648,67 @@ var render = function() {
               { staticClass: "card-body msg_card_body" },
               _vm._l(_vm.allMessages, function(message) {
                 return _c("div", { key: message.id }, [
-                  _c(
-                    "div",
-                    { staticClass: "d-flex justify-content-start mb-4" },
-                    [
-                      _c("div", { staticClass: "img_cont_msg" }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "msg_cotainer" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(message.content) +
-                            "\n                                "
-                        ),
-                        _c("span", { staticClass: "msg_time" }, [
-                          _vm._v("8:40 AM, Today")
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "d-flex justify-content-end mb-4" },
-                    [
-                      _c("div", { staticClass: "msg_cotainer_send" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(message.content) +
-                            "\n                                "
-                        ),
-                        _c("span", { staticClass: "msg_time_send" }, [
-                          _vm._v("8:55 AM, Today")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "img_cont_msg" }, [
-                        _vm.authuser.social_path != null
-                          ? _c("img", {
-                              staticClass: "rounded-circle user_img_msg",
-                              attrs: { src: _vm.authuser.social_path }
-                            })
-                          : _c("img", {
-                              staticClass: "rounded-circle user_img_msg",
-                              attrs: {
-                                src: "/images/avatar/" + _vm.authuser.image
-                              }
-                            })
-                      ])
-                    ]
-                  )
+                  message.user_1 == _vm.user.id
+                    ? _c(
+                        "div",
+                        { staticClass: "d-flex justify-content-start mb-4" },
+                        [
+                          _c("div", { staticClass: "img_cont_msg" }, [
+                            _vm.user.social_path != null
+                              ? _c("img", {
+                                  staticClass: "rounded-circle user_img_msg",
+                                  attrs: { src: _vm.user.social_path }
+                                })
+                              : _c("img", {
+                                  staticClass: "rounded-circle user_img_msg",
+                                  attrs: {
+                                    src: "/images/avatar/" + _vm.user.image
+                                  }
+                                })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "msg_cotainer" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(message.content) +
+                                " \n                                "
+                            ),
+                            _c("span", { staticClass: "msg_time" }, [
+                              _vm._v("8:40 AM, Today")
+                            ])
+                          ])
+                        ]
+                      )
+                    : _c(
+                        "div",
+                        { staticClass: "d-flex justify-content-end mb-4" },
+                        [
+                          _c("div", { staticClass: "msg_cotainer_send" }, [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(message.content) +
+                                "\n                                "
+                            ),
+                            _c("span", { staticClass: "msg_time_send" }, [
+                              _vm._v("8:55 AM, Today")
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "img_cont_msg" }, [
+                            _vm.authuser.social_path != null
+                              ? _c("img", {
+                                  staticClass: "rounded-circle user_img_msg",
+                                  attrs: { src: _vm.authuser.social_path }
+                                })
+                              : _c("img", {
+                                  staticClass: "rounded-circle user_img_msg",
+                                  attrs: {
+                                    src: "/images/avatar/" + _vm.authuser.image
+                                  }
+                                })
+                          ])
+                        ]
+                      )
                 ])
               }),
               0
@@ -54705,6 +54729,15 @@ var render = function() {
                   attrs: { name: "", placeholder: "Type your message..." },
                   domProps: { value: _vm.message },
                   on: {
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.sendMessage($event)
+                    },
                     input: function($event) {
                       if ($event.target.composing) {
                         return
@@ -54731,14 +54764,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "img_cont" }, [
-      _c("span", { staticClass: "online_icon" })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -70738,7 +70763,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
     path: "users/:id",
     component: _components_chat_content_hero_content_VideoChatContent__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
-    path: "/users/message/:id",
+    path: "/users-message/:id",
     component: _components_chat_content_hero_content_MessageContent__WEBPACK_IMPORTED_MODULE_4__["default"]
   }]
 });

@@ -102,7 +102,7 @@
                                 <img v-else alt="profile picture" class="circle-user-image-32" data-testid="user-avatar" draggable="false" :src="'/images/avatar/'+user.image">
                                 
                                 </router-link>
-                                <router-link :to="'/users/message/' + user.id" class="margin-left-10 color-dark" >
+                                <router-link :to="'/users-message/' + user.id" class="margin-left-10 color-dark" >
                                 <span v-if="user.display_name == null">{{user.name}}</span>
                                 <span v-else>{{user.display_name}}</span>
                                 
@@ -415,6 +415,7 @@ export default {
       // if video or audio is muted, enable it so that the stopStreamedVideo method will work
       if (!this.mutedVideo) this.toggleMuteVideo();
       if (!this.mutedAudio) this.toggleMuteAudio();
+      
       this.stopStreamedVideo(this.$refs.userVideo);
       if (this.authuser.id === this.videoCallParams.caller) {
         this.videoCallParams.peer1.destroy();
