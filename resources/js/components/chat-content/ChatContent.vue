@@ -253,15 +253,7 @@ export default {
         initiator: true,
         trickle: false,
         stream: this.videoCallParams.stream,
-        config: {
-          iceServers: [
-            {
-              urls: this.turn_url,
-              username: this.turn_username,
-              credential: this.turn_credential,
-            },
-          ],
-        },
+       
       });
 
       this.videoCallParams.peer1.on("signal", (data) => {
@@ -322,15 +314,7 @@ export default {
         initiator: false,
         trickle: false,
         stream: this.videoCallParams.stream,
-        config: {
-          iceServers: [
-            {
-              urls: this.turn_url,
-              username: this.turn_username,
-              credential: this.turn_credential,
-            },
-          ],
-        },
+       
       });
       this.videoCallParams.receivingCall = false;
       this.videoCallParams.peer2.on("signal", (data) => {

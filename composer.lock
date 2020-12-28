@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3911b6c9518ee9ee6c17ca3745a29fac",
+    "content-hash": "d2be584d9273763c43086f377cf114ea",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2354,6 +2354,66 @@
                 }
             ],
             "time": "2020-12-02T09:39:26+00:00"
+        },
+        {
+            "name": "srmklive/paypal",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/srmklive/laravel-paypal.git",
+                "reference": "b831aa41c59a388fae182a730f866e1cf38a057d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/b831aa41c59a388fae182a730f866e1cf38a057d",
+                "reference": "b831aa41c59a388fae182a730f866e1cf38a057d",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~7.0",
+                "illuminate/support": "~6.0|~7.0|~8.0",
+                "nesbot/carbon": "~2.0",
+                "php": ">=7.2|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0|^9.0",
+                "symfony/var-dumper": "~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Srmklive\\PayPal\\Providers\\PayPalServiceProvider"
+                    ],
+                    "aliases": {
+                        "PayPal": "Srmklive\\PayPal\\Facades\\PayPal"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Srmklive\\PayPal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Raza Mehdi",
+                    "email": "srmk@outlook.com"
+                }
+            ],
+            "description": "Laravel plugin For Processing Payments Through Paypal Express Checkout. Can Be Used Independently With Other Applications.",
+            "keywords": [
+                "http",
+                "laravel paypal",
+                "paypal",
+                "rest",
+                "web service"
+            ],
+            "time": "2020-12-11T09:59:38+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

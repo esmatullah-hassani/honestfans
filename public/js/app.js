@@ -2003,14 +2003,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this4.videoCallParams.peer1 = new simple_peer__WEBPACK_IMPORTED_MODULE_1___default.a({
                   initiator: true,
                   trickle: false,
-                  stream: _this4.videoCallParams.stream,
-                  config: {
-                    iceServers: [{
-                      urls: _this4.turn_url,
-                      username: _this4.turn_username,
-                      credential: _this4.turn_credential
-                    }]
-                  }
+                  stream: _this4.videoCallParams.stream
                 });
 
                 _this4.videoCallParams.peer1.on("signal", function (data) {
@@ -2089,14 +2082,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 _this5.videoCallParams.peer2 = new simple_peer__WEBPACK_IMPORTED_MODULE_1___default.a({
                   initiator: false,
                   trickle: false,
-                  stream: _this5.videoCallParams.stream,
-                  config: {
-                    iceServers: [{
-                      urls: _this5.turn_url,
-                      username: _this5.turn_username,
-                      credential: _this5.turn_credential
-                    }]
-                  }
+                  stream: _this5.videoCallParams.stream
                 });
                 _this5.videoCallParams.receivingCall = false;
 
