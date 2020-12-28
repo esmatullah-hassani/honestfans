@@ -12,7 +12,7 @@ Instagram "inspired" social media built with Laravel.
 
 ### Install
 
-1. Clone the repo: `git clone https://github.com/laykith/photoify.git`
+1. Clone the repo: https://github.com/esmatullah-hassani/honestfans.git
 2. Open the folder `cd photoify`
 3. Run `./install.sh`
 
