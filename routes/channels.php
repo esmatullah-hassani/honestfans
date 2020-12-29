@@ -20,7 +20,7 @@ Broadcast::channel('presence-video-channel', function($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });
 
-Broadcast::channel('message-sent', function ($user) {
+Broadcast::channel('message-sent-{user_2}-{user_1}', function ($user) {
 return Auth::check();
 });
 

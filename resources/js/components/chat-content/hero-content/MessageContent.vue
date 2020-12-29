@@ -110,7 +110,6 @@ export default {
             formData.append("user_2",this.user_2);
             axios.post("/users/message",formData)
             .then(response => {
-                console.log(response);
                 this.message =null;
 				this.fetchMessage();
 				this.scrollToElement();
@@ -134,7 +133,7 @@ export default {
 	
     mounted(){
         this.scrollToElement();
-         Echo.private("message-sent")
+         Echo.private("message-sent-"+this.authuser.id+"-"+this.user_2)
         .listen("MessageSent",(e)=>{
             this.allMessages.push(e.message);
             this.scrollToElement();

@@ -81,6 +81,12 @@ Route::middleware(['auth'])->group(function () {
     })->name('get-video');
 
    // Route::get("/chats",[ChatController::class,'index'])->name("chats");
+    // Endpoints to call or receive calls.
+    Route::post('/video/call-user', [ChatController::class,'callUser']);
+    Route::post('/video/accept-call', [ChatController::class,'acceptCall']);
+
+    Route::get("/users/message/{user_1}/{user_2}",[MessageController::class,'index']);
+    Route::post("/users/message",[MessageController::class,'store']);
 
 });
 Route::get('/video-chat', function () {
@@ -89,12 +95,6 @@ Route::get('/video-chat', function () {
     return view('chats.chat', ['users' => $users]);
 })->name("chats");
 
-// Endpoints to call or receive calls.
-Route::post('/video/call-user', [ChatController::class,'callUser']);
-Route::post('/video/accept-call', [ChatController::class,'acceptCall']);
-
-Route::get("/users/message/{user_1}/{user_2}",[MessageController::class,'index']);
-Route::post("/users/message",[MessageController::class,'store']);
 
 
 //Route::post('auth/video_chat', [ChatController::class,'videoChat']);

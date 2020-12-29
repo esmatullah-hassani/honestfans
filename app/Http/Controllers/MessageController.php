@@ -14,10 +14,22 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $user_1;
+    protected $user_2;
     public function index($user_1,$user_2)
     {
+        $this->user_1 = $user_1;
+        $this->user_2 = $user_2;
         return  response([
-            'message'=>Message::where("user_1",$user_1)->orWhere("user_2",$user_1)->get(),
+            'message'=>Message::whereIn("user_1",function($query){
+                return $query->select('user_1')->from('messages')->where('user_1', $this->user_1)
+                ->orWhere('user_1',$this->user_2);
+             })
+            ->whereIn("user_2",function($query){
+                return $query->select('user_2')->from('messages')->where('user_2', $this->user_1)
+                ->orWhere('user_2',$this->user_2);
+            })
+            ->get(),
             'user' => User::find($user_2)
         ]);
     }
@@ -41,7 +53,7 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $message = Message::create($request->all());
-        broadcast(new MessageSent(auth()->user(),$message))->toOthers();
+        broadcast(new MessageSent(auth()->user(),$message,$request->user_2))->toOthers();
         return response(['status' => "Message sent successfully"]);
     }
 

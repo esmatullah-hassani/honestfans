@@ -1,13 +1,16 @@
 <template>
     <div class="container"  >
-        
-        <div class="row">
-            <div class="col-md-2"></div>
-        
-            
-            <div class="col-md-6" >
-                <!--Placing Video Call-->
-              <div class="row mt-5" id="video-row">
+        <div id="modal-call" uk-modal>
+          <div class="uk-modal-dialog  uk-modal-dialog-large " style="width:80% ">
+
+              <button class="uk-modal-close-default" type="button" uk-close></button>
+
+              <div class="uk-modal-header">
+                  <h2 class="uk-modal-title">Call</h2>
+              </div>
+
+              <div class="uk-modal-body " uk-overflow-auto>
+              <div class="row col-md-6" id="video-row">
                 <div class="col-12 video-container" v-if="callPlaced">
                   <video
                     ref="userVideo"
@@ -54,6 +57,18 @@
                   </div>
                 </div>
               </div>
+              </div>
+
+
+          </div>
+      </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+        
+            
+            <div class="col-md-6" >
+                <!--Placing Video Call-->
+              
       <!-- End of Placing Video Call  -->
 
       <!-- Incoming Call  -->
@@ -71,13 +86,13 @@
             >
               Decline
             </button>
-            <button
+            <a href="#modal-call" uk-toggle
               type="button"
               class="btn btn-success ml-5"
               @click="acceptCall"
             >
               Accept
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -109,9 +124,9 @@
                                 </router-link>
                             </div>
                             <div class="col-md-2">
-                                <button type="button" class="mp btn-link" @click="placeVideoCall(user.id, user.name)">
+                                <a type="button" class="mp btn-link" href="#modal-call" uk-toggle  @click="placeVideoCall(user.id, user.name)">
                                     <i class="fas fa-video"  ></i>
-                                </button>
+                                </a>
                                 
                             </div>
                         </div>
@@ -420,7 +435,7 @@ export default {
 
 <style scoped>
 #video-row {
-  width: 700px;
+  width: 100%;
   max-width: 90vw;
 }
 
@@ -429,8 +444,8 @@ export default {
 }
 
 .video-container {
-  width: 700px;
-  height: 500px;
+  width: 1000px;
+  height: 7000px;
   max-width: 90vw;
   max-height: 50vh;
   margin: 0 auto;
@@ -441,7 +456,7 @@ export default {
 }
 
 .video-container .user-video {
-  width: 30%;
+  width: 20%;
   position: absolute;
   left: 10px;
   bottom: 10px;
