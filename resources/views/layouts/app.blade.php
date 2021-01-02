@@ -66,7 +66,6 @@
                 @endif
                 
             </div>
-
             <!-- Navbar-start -->
             <div id="navbar" class="navbar-menu" style="align-items: center;">
                 <div class="navbar-start mobile-navbar-menu">
@@ -152,7 +151,6 @@
 </div>
 @include('sweetalert::alert')
 @include('layouts.script')
-    <script src="{{mix('js/app.js')}}"></script>
     <script src="{{ asset('js/application.js') }}"></script>
     <script defer src="{{ asset('js/all.js')}}" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1"
         crossorigin="anonymous"></script>

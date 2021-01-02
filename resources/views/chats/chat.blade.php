@@ -8,6 +8,8 @@
 </div>
 
 @include('layouts.script')
+<script src="{{mix('js/app.js')}}"></script>
+
 <script>
 
     window.csrfToken = "{{csrf_token()}}";

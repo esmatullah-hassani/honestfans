@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PayPalPaymentController;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -94,6 +95,23 @@ Route::get('/video-chat', function () {
     $users = User::where('id', '<>', Auth::id())->get();
     return view('chats.chat', ['users' => $users]);
 })->name("chats");
+
+//paypal
+// Route::post("/payments/purchase-with-paypal",[
+//     'uses' => [PaypalController::class,'purchaseWithPaypal']
+// ])->name('payments.purchase');
+
+// Route::get("/payments/pusrchase-status",[
+//     'uses' => [PaypalController::class,'getPaypalPaymentStatus']
+// ]);
+
+Route::get("/pay",function(){
+    return view("paypal.product");
+});
+
+Route::get('handle-payment', [PayPalPaymentController::class,'handlePayment'])->name('make.payment');
+Route::get('cancel-payment', [PayPalPaymentController::class,'paymentCancel'])->name('cancel.payment');
+Route::get('payment-success', [PayPalPaymentController::class,'paymentSuccess'])->name('success.payment');
 
 
 

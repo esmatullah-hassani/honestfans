@@ -33,17 +33,17 @@
                         </div>
                     </a>
                     <a>
-                        <div class="uk-modal-close" onclick="shareOnfacebook(`{{config('app.url')}}/images/posts/{{$post->image}}`,`{{$post->user->name}}`);" style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;padding-top: 20px;">
+                        <div class="uk-modal-close" onclick="shareOnfacebook(`{{config('app.url')}}{{storage_path('video/' . $post->video_path)}}`,`{{$post->user->name}}`);" style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;padding-top: 20px;">
                             <i class="fab fa-facebook"></i> Share
                         </div>
                     </a>
                     <a>
-                        <div class="uk-modal-close" onclick="shareOntwitter(`{{config('app.url')}}/images/posts/{{$post->image}}`,`{{$post->user->name}}`);" style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;padding-top: 20px;">
+                        <div class="uk-modal-close" onclick="shareOntwitter(`{{config('app.url')}}{{storage_path('video/' . $post->video_path)}}`,`{{$post->user->name}}`);" style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;padding-top: 20px;">
                             <i class="fab fa-twitter"></i> Share
                         </div>
                     </a>
                     <a>
-                        <div class="uk-modal-close" onclick="copyToClipboard(`{{config('app.url')}}/images/posts/{{$post->image}}`);showToast(`Link copied to clipboard.`);" class="uk-modal-close" style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;padding-top: 20px;">
+                        <div class="uk-modal-close" onclick="copyToClipboard(`{{config('app.url')}}{{storage_path('video/' . $post->video_path)}}`);showToast(`Link copied to clipboard.`);" class="uk-modal-close" style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;padding-top: 20px;">
                             Copy link
                         </div>
                     </a>
@@ -79,6 +79,10 @@
                         <i class="fas fa-pen"></i>
                     </a>
                 @endif
+                <a href="#modal-payment" uk-toggle  class="post-action " style="margin-left: 15px; background-color: #f8f9fa;">
+                    
+                    doc$
+                </a>
             </div>
             <p class="lead ">
                 <a href="{{  route('account.show', $post->user->id) }}" class="color-dark">

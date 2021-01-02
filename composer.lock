@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2be584d9273763c43086f377cf114ea",
+    "content-hash": "57b5d988aff9f344e6f3dbda715ddbc7",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2357,27 +2357,22 @@
         },
         {
             "name": "srmklive/paypal",
-            "version": "3.0.1",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/srmklive/laravel-paypal.git",
-                "reference": "b831aa41c59a388fae182a730f866e1cf38a057d"
+                "reference": "0c2ae237577f62396d474674cb40f82825a41ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/b831aa41c59a388fae182a730f866e1cf38a057d",
-                "reference": "b831aa41c59a388fae182a730f866e1cf38a057d",
+                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/0c2ae237577f62396d474674cb40f82825a41ffb",
+                "reference": "0c2ae237577f62396d474674cb40f82825a41ffb",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "~7.0",
-                "illuminate/support": "~6.0|~7.0|~8.0",
-                "nesbot/carbon": "~2.0",
-                "php": ">=7.2|^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.0|^9.0",
-                "symfony/var-dumper": "~5.0"
+                "guzzlehttp/guzzle": "~6.0|~7.0",
+                "illuminate/support": "~5.1|~5.2|~5.3|~5.4|~5.5|~5.6|~5.7|~5.8|~6.0|~7.0|~8.0",
+                "nesbot/carbon": "~1.0|~2.0"
             },
             "type": "library",
             "extra": {
@@ -2413,7 +2408,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2020-12-11T09:59:38+00:00"
+            "time": "2020-09-03T07:50:08+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

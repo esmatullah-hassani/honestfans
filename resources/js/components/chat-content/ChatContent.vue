@@ -103,6 +103,8 @@
                     :turn_url="turn_url"
                     :turn_username="turn_username"
                     :turn_credential="turn_credential"
+                    :allMessages="allMessages"
+                    :user="user"
                 />
             </div>
             <div class="col-md-4" style="overflow-y: scroll;max-height:500px; ">
@@ -117,11 +119,11 @@
                                 <img v-else alt="profile picture" class="circle-user-image-32" data-testid="user-avatar" draggable="false" :src="'/images/avatar/'+user.image">
                                 
                                 </router-link>
-                                <router-link :to="'/users-message/' + user.id" class="margin-left-10 color-dark" >
+                                <a href="#" @click="getUser(user.id)" class="margin-left-10 color-dark" >
                                 <span v-if="user.display_name == null">{{user.name}}</span>
                                 <span v-else>{{user.display_name}}</span>
                                 
-                                </router-link>
+                                </a>
                             </div>
                             <div class="col-md-2">
                                 <a type="button" class="mp btn-link" href="#modal-call" uk-toggle  @click="placeVideoCall(user.id, user.name)">
@@ -151,6 +153,7 @@ export default {
     "turn_url",
     "turn_username",
     "turn_credential",
+    
   ],
   data() {
     return {
@@ -170,6 +173,8 @@ export default {
         peer1: null,
         peer2: null,
       },
+      allMessages:[],
+      user:[]
     };
   },
 
@@ -207,6 +212,21 @@ export default {
     },
   },
   methods: {
+
+    /**
+     * get spicific user
+     * @param id
+     */
+     getUser(id){
+       axios.get("/users/message/"+this.authuser.id+"/"+id)
+          .then(response => {
+              this.allMessages = response.data.message;
+              this.user = response.data.user;
+              this.$router.push('/users-message').catch(er=>{
+                
+              });
+          })
+     },
     initializeChannel() {
       this.videoCallParams.channel = window.Echo.join("presence-video-channel");
     },

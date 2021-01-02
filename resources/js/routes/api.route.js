@@ -17,7 +17,7 @@ const router = new VueRouter({
             component:VideoChatContent,
         },
         {
-            path:"/users-message/:id",
+            path:"/users-message",
             component:MessageContent
         }
     ]

@@ -49,3 +49,31 @@
 
         </div>
     </div>
+
+<!-- 
+    Start  Payment modal
+    -->
+<div id="modal-payment" class="uk-flex-top " uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-width-large ">
+        <form action="">
+            <div  style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px; color: blue;">
+                Paypal payment,Click accept button  
+            </div>
+            <div class="uk-modal-close"  style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;padding-top: 20px;">
+                10$ Will cat from your paypal account
+            </div>
+            <div   style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;padding-top: 20px;">
+                <button class="btn btn-success form-control">Accept</button>
+            </div>
+        </form>
+       
+        <a>
+            <div class="uk-modal-close" style="text-align: center; padding-top: 20px;">
+                Cancel
+            </div>
+        </a>
+        
+    </div>
+</div>
+<!-- End Payment modal -->
+

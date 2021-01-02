@@ -1891,6 +1891,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -1913,7 +1915,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         channel: null,
         peer1: null,
         peer2: null
-      }
+      },
+      allMessages: [],
+      user: []
     };
   },
   mounted: function mounted() {
@@ -1946,44 +1950,58 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: {
+    /**
+     * get spicific user
+     * @param id
+     */
+    getUser: function getUser(id) {
+      var _this2 = this;
+
+      axios.get("/users/message/" + this.authuser.id + "/" + id).then(function (response) {
+        _this2.allMessages = response.data.message;
+        _this2.user = response.data.user;
+
+        _this2.$router.push('/users-message')["catch"](function (er) {});
+      });
+    },
     initializeChannel: function initializeChannel() {
       this.videoCallParams.channel = window.Echo.join("presence-video-channel");
     },
     getMediaPermission: function getMediaPermission() {
-      var _this2 = this;
+      var _this3 = this;
 
       return Object(_helper__WEBPACK_IMPORTED_MODULE_2__["getPermissions"])().then(function (stream) {
-        _this2.videoCallParams.stream = stream;
+        _this3.videoCallParams.stream = stream;
 
-        if (_this2.$refs.userVideo) {
-          _this2.$refs.userVideo.srcObject = stream;
+        if (_this3.$refs.userVideo) {
+          _this3.$refs.userVideo.srcObject = stream;
         }
       })["catch"](function (error) {
         console.log(error);
       });
     },
     initializeCallListeners: function initializeCallListeners() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.videoCallParams.channel.here(function (users) {
-        _this3.videoCallParams.users = users;
+        _this4.videoCallParams.users = users;
       });
       this.videoCallParams.channel.joining(function (user) {
         // check user availability
-        var joiningUserIndex = _this3.videoCallParams.users.findIndex(function (data) {
+        var joiningUserIndex = _this4.videoCallParams.users.findIndex(function (data) {
           return data.id === user.id;
         });
 
         if (joiningUserIndex < 0) {
-          _this3.videoCallParams.users.push(user);
+          _this4.videoCallParams.users.push(user);
         }
       });
       this.videoCallParams.channel.leaving(function (user) {
-        var leavingUserIndex = _this3.videoCallParams.users.findIndex(function (data) {
+        var leavingUserIndex = _this4.videoCallParams.users.findIndex(function (data) {
           return data.id === user.id;
         });
 
-        _this3.videoCallParams.users.splice(leavingUserIndex, 1);
+        _this4.videoCallParams.users.splice(leavingUserIndex, 1);
       }); // listen to incomming call
 
       this.videoCallParams.channel.listen("StartVideoChat", function (_ref) {
@@ -1995,64 +2013,64 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             sdp: "".concat(data.signalData.sdp, "\n")
           });
 
-          _this3.videoCallParams.receivingCall = true;
-          _this3.videoCallParams.caller = data.from;
-          _this3.videoCallParams.callerSignal = updatedSignal;
+          _this4.videoCallParams.receivingCall = true;
+          _this4.videoCallParams.caller = data.from;
+          _this4.videoCallParams.callerSignal = updatedSignal;
         }
       });
     },
     placeVideoCall: function placeVideoCall(id, name) {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this4.callPlaced = true;
-                _this4.callPartner = name;
+                _this5.callPlaced = true;
+                _this5.callPartner = name;
                 _context.next = 4;
-                return _this4.getMediaPermission();
+                return _this5.getMediaPermission();
 
               case 4:
-                _this4.videoCallParams.peer1 = new simple_peer__WEBPACK_IMPORTED_MODULE_1___default.a({
+                _this5.videoCallParams.peer1 = new simple_peer__WEBPACK_IMPORTED_MODULE_1___default.a({
                   initiator: true,
                   trickle: false,
-                  stream: _this4.videoCallParams.stream
+                  stream: _this5.videoCallParams.stream
                 });
 
-                _this4.videoCallParams.peer1.on("signal", function (data) {
+                _this5.videoCallParams.peer1.on("signal", function (data) {
                   // send user call signal
                   axios.post("/video/call-user", {
                     user_to_call: id,
                     signal_data: data,
-                    from: _this4.authuser.id.id
+                    from: _this5.authuser.id.id
                   }).then(function () {})["catch"](function (error) {
                     console.log("error" + error);
                   });
                 });
 
-                _this4.videoCallParams.peer1.on("stream", function (stream) {
+                _this5.videoCallParams.peer1.on("stream", function (stream) {
                   console.log("call streaming");
 
-                  if (_this4.$refs.partnerVideo) {
-                    _this4.$refs.partnerVideo.srcObject = stream;
+                  if (_this5.$refs.partnerVideo) {
+                    _this5.$refs.partnerVideo.srcObject = stream;
                   }
                 });
 
-                _this4.videoCallParams.peer1.on("connect", function () {
+                _this5.videoCallParams.peer1.on("connect", function () {
                   console.log("peer connected");
                 });
 
-                _this4.videoCallParams.peer1.on("error", function (err) {
+                _this5.videoCallParams.peer1.on("error", function (err) {
                   console.log("Peer " + err);
                 });
 
-                _this4.videoCallParams.peer1.on("close", function () {
+                _this5.videoCallParams.peer1.on("close", function () {
                   console.log("call closed caller");
                 });
 
-                _this4.videoCallParams.channel.listen("StartVideoChat", function (_ref2) {
+                _this5.videoCallParams.channel.listen("StartVideoChat", function (_ref2) {
                   var data = _ref2.data;
 
                   if (data.type === "callAccepted") {
@@ -2061,13 +2079,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     }
 
                     if (data.signal.sdp) {
-                      _this4.videoCallParams.callAccepted = true;
+                      _this5.videoCallParams.callAccepted = true;
 
                       var updatedSignal = _objectSpread(_objectSpread({}, data.signal), {}, {
                         sdp: "".concat(data.signal.sdp, "\n")
                       });
 
-                      _this4.videoCallParams.peer1.signal(updatedSignal);
+                      _this5.videoCallParams.peer1.signal(updatedSignal);
                     }
                   }
                 });
@@ -2081,54 +2099,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     acceptCall: function acceptCall() {
-      var _this5 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this5.callPlaced = true;
-                _this5.videoCallParams.callAccepted = true;
+                _this6.callPlaced = true;
+                _this6.videoCallParams.callAccepted = true;
                 _context2.next = 4;
-                return _this5.getMediaPermission();
+                return _this6.getMediaPermission();
 
               case 4:
-                _this5.videoCallParams.peer2 = new simple_peer__WEBPACK_IMPORTED_MODULE_1___default.a({
+                _this6.videoCallParams.peer2 = new simple_peer__WEBPACK_IMPORTED_MODULE_1___default.a({
                   initiator: false,
                   trickle: false,
-                  stream: _this5.videoCallParams.stream
+                  stream: _this6.videoCallParams.stream
                 });
-                _this5.videoCallParams.receivingCall = false;
+                _this6.videoCallParams.receivingCall = false;
 
-                _this5.videoCallParams.peer2.on("signal", function (data) {
+                _this6.videoCallParams.peer2.on("signal", function (data) {
                   axios.post("/video/accept-call", {
                     signal: data,
-                    to: _this5.videoCallParams.caller
+                    to: _this6.videoCallParams.caller
                   }).then(function () {})["catch"](function (error) {
                     console.log(error);
                   });
                 });
 
-                _this5.videoCallParams.peer2.on("stream", function (stream) {
-                  _this5.videoCallParams.callAccepted = true;
-                  _this5.$refs.partnerVideo.srcObject = stream;
+                _this6.videoCallParams.peer2.on("stream", function (stream) {
+                  _this6.videoCallParams.callAccepted = true;
+                  _this6.$refs.partnerVideo.srcObject = stream;
                 });
 
-                _this5.videoCallParams.peer2.on("connect", function () {
+                _this6.videoCallParams.peer2.on("connect", function () {
                   console.log("peer connected");
-                  _this5.videoCallParams.callAccepted = true;
+                  _this6.videoCallParams.callAccepted = true;
                 });
 
-                _this5.videoCallParams.peer2.on("error", function (err) {
+                _this6.videoCallParams.peer2.on("error", function (err) {
                   console.log(err);
                 });
 
-                _this5.videoCallParams.peer2.on("close", function () {
+                _this6.videoCallParams.peer2.on("close", function () {
                   console.log("call closed accepter");
                 });
 
-                _this5.videoCallParams.peer2.signal(_this5.videoCallParams.callerSignal);
+                _this6.videoCallParams.peer2.signal(_this6.videoCallParams.callerSignal);
 
               case 12:
               case "end":
@@ -2184,7 +2202,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       videoElem.srcObject = null;
     },
     endCall: function endCall() {
-      var _this6 = this;
+      var _this7 = this;
 
       // if video or audio is muted, enable it so that the stopStreamedVideo method will work
       if (!this.mutedVideo) this.toggleMuteVideo();
@@ -2199,7 +2217,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.videoCallParams.channel.pusher.channels.channels["presence-presence-video-channel"].disconnect();
       setTimeout(function () {
-        _this6.callPlaced = false;
+        _this7.callPlaced = false;
       }, 3000);
     }
   }
@@ -2322,15 +2340,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "MessageContent",
-  props: ["allusers", "authuser", "turn_url", "turn_username", "turn_credential"],
+  props: ["allusers", "authuser", "turn_url", "turn_username", "turn_credential", 'allMessages', 'user'],
   data: function data() {
     return {
       message: null,
       user_2: null,
       messages: [],
-      services: new _services_api_services__WEBPACK_IMPORTED_MODULE_0__["default"](),
-      allMessages: [],
-      user: []
+      services: new _services_api_services__WEBPACK_IMPORTED_MODULE_0__["default"]()
     };
   },
   methods: {
@@ -2345,21 +2361,13 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("content", this.message);
       formData.append("user_1", this.authuser.id);
-      formData.append("user_2", this.user_2);
+      formData.append("user_2", this.user.id);
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/users/message", formData).then(function (response) {
         _this.message = null;
 
-        _this.fetchMessage();
+        _this.allMessages.push(response.data.message);
 
         _this.scrollToElement();
-      });
-    },
-    fetchMessage: function fetchMessage() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/users/message/" + this.authuser.id + "/" + this.user_2).then(function (response) {
-        _this2.allMessages = response.data.message;
-        _this2.user = response.data.user;
       });
     },
     scrollToElement: function scrollToElement() {
@@ -2368,18 +2376,17 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this2 = this;
 
     this.scrollToElement();
-    Echo["private"]("message-sent-" + this.authuser.id + "-" + this.user_2).listen("MessageSent", function (e) {
-      _this3.allMessages.push(e.message);
+    Echo["private"]("message-sent-" + this.authuser.id + "-" + this.user.id).listen("MessageSent", function (e) {
+      _this2.allMessages.push(e.message);
 
-      _this3.scrollToElement();
+      _this2.scrollToElement();
     });
   },
   created: function created() {
-    this.user_2 = this.$route.params.id;
-    this.fetchMessage();
+    console.log(this.allMessages);
   }
 });
 
@@ -9264,7 +9271,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.chat{\n\t\t\tmargin-top: auto;\n\t\t\tmargin-bottom: auto;\n}\n.card{\n\t\t\theight: 500px;\n\t\t\tborder-radius: 15px !important;\n}\n.contacts_body{\n\t\t\tpadding:  0.75rem 0 !important;\n\t\t\toverflow-y: auto;\n\t\t\twhite-space: nowrap;\n}\n.msg_card_body{\n\t\t\toverflow-y: auto;\n}\n.card-header{\n\t\t\tborder-radius: 15px 15px 0 0 !important;\n\t\t\tborder-bottom: 0 !important;\n}\n.card-footer{\n\t\tborder-radius: 0 0 15px 15px !important;\n\t\t\tborder-top: 0 !important;\n}\n.container{\n\t\t\talign-content: center;\n}\n.search{\n\t\t\tborder-radius: 15px 0 0 15px !important;\n\t\t\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor:white !important;\n}\n.search:focus{\n\t\t     box-shadow:none !important;\n           outline:0px !important;\n}\n.type_msg{\n\t\t\tborder:0 !important;\n\t\t\toverflow-y: auto;\n}\n.type_msg:focus{\n\t\t     box-shadow:none !important;\n           outline:0px !important;\n}\n.attach_btn{\n\tborder-radius: 15px 0 0 15px !important;\n\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor: white !important;\n\t\t\tcursor: pointer;\n}\n.send_btn{\n            border-radius: 0 15px 15px 0 !important;\n            background-color: rgba(0,0,0,0.3) !important;\n            border:0 !important;\n            color: white !important;\n            cursor: pointer;\n}\n.search_btn{\n\t\t\tborder-radius: 0 15px 15px 0 !important;\n\t\t\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor: white !important;\n\t\t\tcursor: pointer;\n}\n.contacts{\n\t\t\tlist-style: none;\n\t\t\tpadding: 0;\n}\n.contacts li{\n\t\t\twidth: 100% !important;\n\t\t\tpadding: 5px 10px;\n\t\t\tmargin-bottom: 15px !important;\n}\n.active{\n\t\t\tbackground-color: rgba(0,0,0,0.3);\n}\n.user_img{\n\t\t\theight: 70px;\n\t\t\twidth: 70px;\n\t\t\tborder:1.5px solid #f5f6fa;\n}\n.user_img_msg{\n\t\t\theight: 40px;\n\t\t\twidth: 40px;\n\t\t\tborder:1.5px solid #f5f6fa;\n}\n.img_cont{\n\t\t\tposition: relative;\n\t\t\theight: 70px;\n\t\t\twidth: 70px;\n}\n.img_cont_msg{\n\t\t\theight: 40px;\n\t\t\twidth: 40px;\n}\n.online_icon{\n\t\tposition: absolute;\n\t\theight: 15px;\n\t\twidth:15px;\n\t\tbackground-color: #4cd137;\n\t\tborder-radius: 50%;\n\t\tbottom: 0.2em;\n\t\tright: 0.4em;\n\t\tborder:1.5px solid white;\n}\n.offline{\n\t\tbackground-color: #c23616 !important;\n}\n.user_info{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-left: 15px;\n}\n.user_info span{\n\t\tfont-size: 20px;\n\t\tcolor: white;\n}\n.user_info p{\n\tfont-size: 10px;\n\tcolor: rgba(255,255,255,0.6);\n}\n.video_cam{\n\t\tmargin-left: 50px;\n\t\tmargin-top: 5px;\n}\n.video_cam span{\n\t\tcolor: white;\n\t\tfont-size: 20px;\n\t\tcursor: pointer;\n\t\tmargin-right: 20px;\n}\n.msg_cotainer{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-left: 10px;\n\t\tborder-radius: 25px;\n\t\tbackground-color: #82ccdd;\n\t\tpadding: 10px;\n\t\tposition: relative;\n}\n.msg_cotainer_send{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-right: 10px;\n\t\tborder-radius: 25px;\n\t\tbackground-color: #78e08f;\n\t\tpadding: 10px;\n\t\tposition: relative;\n}\n.msg_time{\n\t\tposition: absolute;\n\t\tleft: 0;\n\t\tbottom: -15px;\n\t\tcolor: rgba(255,255,255,0.5);\n\t\tfont-size: 10px;\n}\n.msg_time_send{\n\t\tposition: absolute;\n\t\tright:0;\n\t\tbottom: -15px;\n\t\tcolor: rgba(255,255,255,0.5);\n\t\tfont-size: 10px;\n}\n.msg_head{\n\t\tposition: relative;\n}\n#action_menu_btn{\n\t\tposition: absolute;\n\t\tright: 10px;\n\t\ttop: 10px;\n\t\tcolor: white;\n\t\tcursor: pointer;\n\t\tfont-size: 20px;\n}\n.action_menu{\n\t\tz-index: 1;\n\t\tposition: absolute;\n\t\tpadding: 15px 0;\n\t\tbackground-color: rgba(0,0,0,0.5);\n\t\tcolor: white;\n\t\tborder-radius: 15px;\n\t\ttop: 30px;\n\t\tright: 15px;\n\t\tdisplay: none;\n}\n.action_menu ul{\n\t\tlist-style: none;\n\t\tpadding: 0;\n\tmargin: 0;\n}\n.action_menu ul li{\n\t\twidth: 100%;\n\t\tpadding: 10px 15px;\n\t\tmargin-bottom: 5px;\n}\n.action_menu ul li i{\n\t\tpadding-right: 10px;\n}\n.action_menu ul li:hover{\n\t\tcursor: pointer;\n\t\tbackground-color: rgba(0,0,0,0.2);\n}\n@media(max-width: 576px){\n.contacts_card{\n\t\tmargin-bottom: 15px !important;\n}\n}\n.fa-location-arrow{\n        margin-top: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.chat{\n\t\t\tmargin-top: auto;\n\t\t\tmargin-bottom: auto;\n}\n.card{\n\t\t\theight: 500px;\n\t\t\tborder-radius: 15px !important;\n}\n.contacts_body{\n\t\t\tpadding:  0.75rem 0 !important;\n\t\t\toverflow-y: auto;\n\t\t\twhite-space: nowrap;\n}\n.msg_card_body{\n\t\t\toverflow-y: auto;\n}\n.card-header{\n\t\t\tborder-radius: 15px 15px 0 0 !important;\n\t\t\tborder-bottom: 0 !important;\n}\n.card-footer{\n\t\tborder-radius: 0 0 15px 15px !important;\n\t\t\tborder-top: 0 !important;\n}\n.container{\n\t\t\talign-content: center;\n}\n.search{\n\t\t\tborder-radius: 15px 0 0 15px !important;\n\t\t\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor:white !important;\n}\n.search:focus{\n\t\t     box-shadow:none !important;\n           outline:0px !important;\n}\n.type_msg{\n\t\t\tborder:0 !important;\n\t\t\toverflow-y: auto;\n}\n.type_msg:focus{\n\t\t     box-shadow:none !important;\n           outline:0px !important;\n}\n.attach_btn{\n\tborder-radius: 15px 0 0 15px !important;\n\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor: white !important;\n\t\t\tcursor: pointer;\n}\n.send_btn{\n            border-radius: 0 15px 15px 0 !important;\n            background-color: rgba(0,0,0,0.3) !important;\n            border:0 !important;\n            color: white !important;\n            cursor: pointer;\n}\n.search_btn{\n\t\t\tborder-radius: 0 15px 15px 0 !important;\n\t\t\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor: white !important;\n\t\t\tcursor: pointer;\n}\n.contacts{\n\t\t\tlist-style: none;\n\t\t\tpadding: 0;\n}\n.contacts li{\n\t\t\twidth: 100% !important;\n\t\t\tpadding: 5px 10px;\n\t\t\tmargin-bottom: 15px !important;\n}\n.active{\n\t\t\tbackground-color: rgba(0,0,0,0.3);\n}\n.user_img{\n\t\t\theight: 70px;\n\t\t\twidth: 70px;\n\t\t\tborder:1.5px solid #f5f6fa;\n}\n.user_img_msg{\n\t\t\theight: 40px;\n\t\t\twidth: 40px;\n\t\t\tborder:1.5px solid #f5f6fa;\n}\n.img_cont{\n\t\t\tposition: relative;\n\t\t\theight: 70px;\n\t\t\twidth: 70px;\n}\n.img_cont_msg{\n\t\t\theight: 40px;\n\t\t\twidth: 40px;\n}\n.online_icon{\n\t\tposition: absolute;\n\t\theight: 15px;\n\t\twidth:15px;\n\t\tbackground-color: #4cd137;\n\t\tborder-radius: 50%;\n\t\tbottom: 0.2em;\n\t\tright: 0.4em;\n\t\tborder:1.5px solid white;\n}\n.offline{\n\t\tbackground-color: #c23616 !important;\n}\n.user_info{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-left: 15px;\n}\n.user_info span{\n\t\tfont-size: 20px;\n\t\tcolor: white;\n}\n.user_info p{\n\tfont-size: 10px;\n\tcolor: rgba(255,255,255,0.6);\n}\n.video_cam{\n\t\tmargin-left: 50px;\n\t\tmargin-top: 5px;\n}\n.video_cam span{\n\t\tcolor: white;\n\t\tfont-size: 20px;\n\t\tcursor: pointer;\n\t\tmargin-right: 20px;\n}\n.msg_cotainer{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-left: 10px;\n\t\tborder-radius: 25px;\n\t\tbackground-color: #82ccdd;\n\t\tpadding: 10px;\n\t\tposition: relative;\n}\n.msg_cotainer_send{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-right: 10px;\n\t\tborder-radius: 25px;\n\t\tbackground-color: #78e08f;\n\t\tpadding: 10px;\n\t\tposition: relative;\n}\n.msg_time{\n\t\tposition: absolute;\n\t\tleft: 0;\n\t\tbottom: -15px;\n\t\tcolor: rgba(10, 10, 10, 0.5);\n\t\tfont-size: 10px;\n}\n.msg_time_send{\n\t\tposition: absolute;\n\t\tright:0;\n\t\tbottom: -15px;\n\t\tcolor: rgba(8, 8, 8, 0.5);\n\t\tfont-size: 10px;\n}\n.msg_head{\n\t\tposition: relative;\n}\n#action_menu_btn{\n\t\tposition: absolute;\n\t\tright: 10px;\n\t\ttop: 10px;\n\t\tcolor: white;\n\t\tcursor: pointer;\n\t\tfont-size: 20px;\n}\n.action_menu{\n\t\tz-index: 1;\n\t\tposition: absolute;\n\t\tpadding: 15px 0;\n\t\tbackground-color: rgba(0,0,0,0.5);\n\t\tcolor: white;\n\t\tborder-radius: 15px;\n\t\ttop: 30px;\n\t\tright: 15px;\n\t\tdisplay: none;\n}\n.action_menu ul{\n\t\tlist-style: none;\n\t\tpadding: 0;\n\tmargin: 0;\n}\n.action_menu ul li{\n\t\twidth: 100%;\n\t\tpadding: 10px 15px;\n\t\tmargin-bottom: 5px;\n}\n.action_menu ul li i{\n\t\tpadding-right: 10px;\n}\n.action_menu ul li:hover{\n\t\tcursor: pointer;\n\t\tbackground-color: rgba(0,0,0,0.2);\n}\n@media(max-width: 576px){\n.contacts_card{\n\t\tmargin-bottom: 15px !important;\n}\n}\n.fa-location-arrow{\n        margin-top: 15px;\n}\n", ""]);
 
 // exports
 
@@ -54498,7 +54505,9 @@ var render = function() {
               authuser: _vm.authuser,
               turn_url: _vm.turn_url,
               turn_username: _vm.turn_username,
-              turn_credential: _vm.turn_credential
+              turn_credential: _vm.turn_credential,
+              allMessages: _vm.allMessages,
+              user: _vm.user
             }
           })
         ],
@@ -54559,10 +54568,15 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c(
-                      "router-link",
+                      "a",
                       {
                         staticClass: "margin-left-10 color-dark",
-                        attrs: { to: "/users-message/" + user.id }
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.getUser(user.id)
+                          }
+                        }
                       },
                       [
                         user.display_name == null
@@ -54703,9 +54717,9 @@ var render = function() {
             _c(
               "div",
               { staticClass: "card-body msg_card_body" },
-              _vm._l(_vm.allMessages, function(message) {
-                return _c("div", { key: message.id }, [
-                  message.user_1 == _vm.user.id
+              _vm._l(_vm.allMessages, function(usermessage) {
+                return _c("div", { key: usermessage.id }, [
+                  usermessage.user_1 == _vm.user.id
                     ? _c(
                         "div",
                         { staticClass: "d-flex justify-content-start mb-4" },
@@ -54725,14 +54739,14 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "msg_cotainer" }, [
+                            _c("p", { staticClass: "msg_time" }, [
+                              _vm._v("8:40AM,Today")
+                            ]),
                             _vm._v(
                               "\n                                " +
-                                _vm._s(message.content) +
-                                " \n                                "
-                            ),
-                            _c("span", { staticClass: "msg_time" }, [
-                              _vm._v("8:40 AM, Today")
-                            ])
+                                _vm._s(usermessage.content) +
+                                " \n                            "
+                            )
                           ])
                         ]
                       )
@@ -54743,11 +54757,11 @@ var render = function() {
                           _c("div", { staticClass: "msg_cotainer_send" }, [
                             _vm._v(
                               "\n                                " +
-                                _vm._s(message.content) +
+                                _vm._s(usermessage.content) +
                                 "\n                                "
                             ),
                             _c("span", { staticClass: "msg_time_send" }, [
-                              _vm._v("8:55 AM, Today")
+                              _vm._v("8:55AM,Today")
                             ])
                           ]),
                           _vm._v(" "),
@@ -70821,7 +70835,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
     path: "users/:id",
     component: _components_chat_content_hero_content_VideoChatContent__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
-    path: "/users-message/:id",
+    path: "/users-message",
     component: _components_chat_content_hero_content_MessageContent__WEBPACK_IMPORTED_MODULE_4__["default"]
   }]
 });

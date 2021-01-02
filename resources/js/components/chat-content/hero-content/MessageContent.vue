@@ -32,22 +32,22 @@
                 </div>
                 <div class="card-body msg_card_body">
                     
-                   <div v-for="message in allMessages" v-bind:key="message.id">
+                   <div v-for="usermessage in allMessages" v-bind:key="usermessage.id">
 					   
-                       <div  v-if="message.user_1 == user.id" class="d-flex justify-content-start mb-4">
+                       <div  v-if="usermessage.user_1 == user.id" class="d-flex justify-content-start mb-4">
                             <div class="img_cont_msg">
                                  <img v-if="user.social_path!=null" :src="user.social_path"   class="rounded-circle user_img_msg">
                                 <img v-else :src="'/images/avatar/'+user.image"   class="rounded-circle user_img_msg">
                             </div>
                             <div class="msg_cotainer">
-                                {{message.content}} 
-                                <span class="msg_time">8:40 AM, Today</span>
+                            <p class="msg_time">8:40AM,Today</p>
+                                {{usermessage.content}} 
                             </div>
                         </div>
                         <div v-else class="d-flex justify-content-end mb-4">
                             <div class="msg_cotainer_send">
-                                {{message.content}}
-                                <span class="msg_time_send">8:55 AM, Today</span>
+                                {{usermessage.content}}
+                                <span class="msg_time_send">8:55AM,Today</span>
                             </div>
                             <div class="img_cont_msg">
                                 <img v-if="authuser.social_path!=null" :src="authuser.social_path"   class="rounded-circle user_img_msg">
@@ -84,7 +84,9 @@ export default {
     "authuser",
     "turn_url",
     "turn_username",
-    "turn_credential",
+	"turn_credential",
+	'allMessages',
+	'user'
   ],
   data(){
       return {
@@ -92,8 +94,6 @@ export default {
           user_2:null,
           messages:[],
           services:new ApiServices(),
-          allMessages:[],
-          user:[],
       }
   },
   
@@ -107,23 +107,17 @@ export default {
             const formData = new FormData();
             formData.append("content",this.message);
             formData.append("user_1",this.authuser.id);
-            formData.append("user_2",this.user_2);
+            formData.append("user_2",this.user.id);
             axios.post("/users/message",formData)
             .then(response => {
                 this.message =null;
-				this.fetchMessage();
+				this.allMessages.push(response.data.message);
 				this.scrollToElement();
             })
 
 
         },
-        fetchMessage(){
-            axios.get("/users/message/"+this.authuser.id+"/"+this.user_2)
-            .then(response => {
-                this.allMessages = response.data.message;
-                this.user = response.data.user;
-            })
-		},
+        
 		scrollToElement() {
 			var container = this.$el.querySelector(".msg_card_body");
 			container.scrollTop = container.scrollHeight;
@@ -133,18 +127,18 @@ export default {
 	
     mounted(){
         this.scrollToElement();
-         Echo.private("message-sent-"+this.authuser.id+"-"+this.user_2)
+         Echo.private("message-sent-"+this.authuser.id+"-"+this.user.id)
         .listen("MessageSent",(e)=>{
             this.allMessages.push(e.message);
             this.scrollToElement();
 		});
 		
-    },
+	},
+	created(){
+		console.log(this.allMessages);
+	}
     
-    created(){
-        this.user_2 = this.$route.params.id;
-		this.fetchMessage();
-    }
+    
 
 }
 </script>
@@ -307,14 +301,14 @@ export default {
 		position: absolute;
 		left: 0;
 		bottom: -15px;
-		color: rgba(255,255,255,0.5);
+		color: rgba(10, 10, 10, 0.5);
 		font-size: 10px;
 	}
 	.msg_time_send{
 		position: absolute;
 		right:0;
 		bottom: -15px;
-		color: rgba(255,255,255,0.5);
+		color: rgba(8, 8, 8, 0.5);
 		font-size: 10px;
 	}
 	.msg_head{
