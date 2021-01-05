@@ -61,7 +61,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/get-users/{name}","UsersController@getUsers");
     Route::patch('/account/settings', 'UsersController@update')->name('account.update');
     Route::post('/user/{user}', 'UsersController@follow')->name('account.follow');
-  
+    Route::get("/user-gift",function(){
+        return view("users.payment");
+    });
+    Route::post("/user-payment",[PayPalPaymentController::class,'store']);
     //When logged in: Redirect /account to current users profile, /user/1 etc.
     Route::get('/account', function () {
         return redirect()->route('account.show', ['id' => Auth::id()]);
@@ -96,22 +99,6 @@ Route::get('/video-chat', function () {
     return view('chats.chat', ['users' => $users]);
 })->name("chats");
 
-//paypal
-// Route::post("/payments/purchase-with-paypal",[
-//     'uses' => [PaypalController::class,'purchaseWithPaypal']
-// ])->name('payments.purchase');
-
-// Route::get("/payments/pusrchase-status",[
-//     'uses' => [PaypalController::class,'getPaypalPaymentStatus']
-// ]);
-
-Route::get("/pay",function(){
-    return view("paypal.product");
-});
-
-Route::get('handle-payment', [PayPalPaymentController::class,'handlePayment'])->name('make.payment');
-Route::get('cancel-payment', [PayPalPaymentController::class,'paymentCancel'])->name('cancel.payment');
-Route::get('payment-success', [PayPalPaymentController::class,'paymentSuccess'])->name('success.payment');
 
 
 

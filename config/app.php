@@ -175,7 +175,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
-        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
 
     ],
 
@@ -227,7 +226,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Str' => Illuminate\Support\Str::class,
-        'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
 
     ],
 

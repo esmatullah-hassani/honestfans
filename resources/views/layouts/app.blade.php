@@ -22,7 +22,7 @@
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <script src="{{asset('bootstrap/jquery.js')}}" ></script>
-
+    
 <script src="{{asset('bootstrap/js/bootstrap.min.js')}}" ></script>
     <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}"  >
    

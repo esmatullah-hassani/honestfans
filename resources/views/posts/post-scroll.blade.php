@@ -79,6 +79,10 @@
                         <i class="fas fa-pen"></i>
                     </a>
                 @endif
+                <a href="{{URL('user-gift')}}" uk-toggle  class="post-action " style="margin-left: 15px; background-color: #f8f9fa;">
+                    
+                <i class="fas fa-gift"></i>
+                </a>
             </div>
             <p class="lead ">
                 <a href="{{  route('account.show', $post->user->id) }}" class="color-dark">

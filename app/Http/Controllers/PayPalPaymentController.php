@@ -1,51 +1,90 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Payment;
 use Illuminate\Http\Request;
-use Srmklive\PayPal\Services\ExpressCheckout;
 
 class PayPalPaymentController extends Controller
 {
-    public function handlePayment()
+    public function __construct()
     {
-        $product = [];
-        $product['items'] = [
-            [
-                'name' => 'Nike Joyride 2',
-                'price' => 112,
-                'desc'  => 'Running shoes for Men',
-                'qty' => 2
-            ]
-        ];
-  
-        $product['invoice_id'] = 1;
-        $product['invoice_description'] = "Order #{$product['invoice_id']} Bill";
-        $product['return_url'] = route('success.payment');
-        $product['cancel_url'] = route('cancel.payment');
-        $product['total'] = 224;
-  
-        $paypalModule = new ExpressCheckout;
-  
-        $res = $paypalModule->setExpressCheckout($product);
-        $res = $paypalModule->setExpressCheckout($product, true);
-  
-        return redirect($res['paypal_link']);
+        $this->middleware('auth');
     }
-   
-    public function paymentCancel()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        dd('Your payment has been declend. The payment cancelation page goes here!');
+        //
     }
-  
-    public function paymentSuccess(Request $request)
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $paypalModule = new ExpressCheckout;
-        $response = $paypalModule->getExpressCheckoutDetails($request->token);
-  
-        if (in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
-            dd('Payment was successfull. The payment success page goes here!');
-        }
-  
-        dd('Error occured!');
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        Payment::create($request->all());
+        return response(['status' => true,'message' => "You successfully paid"]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Payment $payment)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Payment $payment)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Payment $payment)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Payment $payment)
+    {
+        //
     }
 }

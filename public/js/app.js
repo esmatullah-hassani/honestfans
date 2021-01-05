@@ -1722,6 +1722,126 @@ module.exports = function isBuffer (obj) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/card/PayPalPayment.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/card/PayPalPayment.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "PayPalPayment",
+  props: ['user_id'],
+  data: function data() {
+    return {
+      product: {
+        price: 10,
+        description: "Gift for your video"
+      }
+    };
+  },
+  mounted: function mounted() {
+    var script = document.createElement("script");
+    script.src = "https://www.paypal.com/sdk/js?client-id=ASyBLrCpsjB4fKGdtshk9gYl2LukxGtom0EKNX_AQ2ONJZ9utCJx78047JX9I5pDZjYoTE6PUKda0Y6v";
+    script.addEventListener("load", this.setLoaded);
+    document.body.appendChild(script);
+  },
+  methods: {
+    setLoaded: function setLoaded() {
+      var _this = this;
+
+      window.paypal.Buttons({
+        createOrder: function createOrder(data, actions) {
+          // This function sets up the details of the transaction, including the amount and line item details.
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: _this.product.price
+              }
+            }]
+          });
+        },
+        onApprove: function () {
+          var _onApprove = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(data, actions) {
+            var order;
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.next = 2;
+                    return actions.order.capture();
+
+                  case 2:
+                    order = _context.sent;
+
+                    _this.submitPayment();
+
+                  case 4:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee);
+          }));
+
+          function onApprove(_x, _x2) {
+            return _onApprove.apply(this, arguments);
+          }
+
+          return onApprove;
+        }()
+      }).render('#paypal-button-container');
+    },
+    submitPayment: function submitPayment() {
+      var formData = new FormData();
+      formData.append('price', this.product.price);
+      formData.append('description', this.product.description);
+      formData.append('user_id', this.user_id);
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/user-payment", formData).then(function (response) {
+        if (response.data.status) {
+          window.location.href = "/posts";
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/chat-content/ChatContent.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/chat-content/ChatContent.vue?vue&type=script&lang=js& ***!
@@ -2326,15 +2446,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2384,9 +2495,6 @@ __webpack_require__.r(__webpack_exports__);
 
       _this2.scrollToElement();
     });
-  },
-  created: function created() {
-    console.log(this.allMessages);
   }
 });
 
@@ -9252,7 +9360,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#video-row[data-v-294fd0be] {\n  width: 100%;\n  max-width: 90vw;\n}\n#incoming-call-card[data-v-294fd0be] {\n  border: 1px solid #0acf83;\n}\n.video-container[data-v-294fd0be] {\n  width: 1000px;\n  height: 7000px;\n  max-width: 90vw;\n  max-height: 50vh;\n  margin: 0 auto;\n  border: 1px solid #0acf83;\n  position: relative;\n  box-shadow: 1px 1px 11px #9e9e9e;\n  background-color: #fff;\n}\n.video-container .user-video[data-v-294fd0be] {\n  width: 20%;\n  position: absolute;\n  left: 10px;\n  bottom: 10px;\n  border: 1px solid #fff;\n  border-radius: 6px;\n  z-index: 2;\n}\n.video-container .partner-video[data-v-294fd0be] {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  top: 0;\n  z-index: 1;\n  margin: 0;\n  padding: 0;\n}\n.video-container .action-btns[data-v-294fd0be] {\n  position: absolute;\n  bottom: 20px;\n  left: 50%;\n  margin-left: -50px;\n  z-index: 3;\n  display: flex;\n  flex-direction: row;\n}\n\n/* Mobiel Styles */\n@media only screen and (max-width: 768px) {\n.video-container[data-v-294fd0be] {\n    height: 50vh;\n}\n}\n", ""]);
+exports.push([module.i, "\n#video-row[data-v-294fd0be] {\n  width: 100%;\n  max-width: 90vw;\n}\n#incoming-call-card[data-v-294fd0be] {\n  border: 1px solid #0acf83;\n}\n.video-container[data-v-294fd0be] {\n  width: 1000px;\n  height: 7000px;\n  max-width: 90vw;\n  max-height: 50vh;\n  margin: 0 auto;\n  border: 1px solid #0acf83;\n  position: relative;\n  box-shadow: 1px 1px 11px #9e9e9e;\n  background-color: #fff;\n}\n.video-container .user-video[data-v-294fd0be] {\n  width: 20%;\n  position: absolute;\n  left: 10px;\n  bottom: 10px;\n  border: 1px solid #fff;\n  border-radius: 6px;\n  z-index: 2;\n}\n.video-container .partner-video[data-v-294fd0be] {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  top: 0;\n  z-index: 1;\n  margin: 0;\n  padding: 0;\n}\n.video-container .action-btns[data-v-294fd0be] {\n  position: absolute;\n  bottom: 20px;\n  left: 50%;\n  margin-left: -50px;\n  z-index: 3;\n  display: flex;\n  flex-direction: row;\n  align-content: center;\n}\n\n/* Mobiel Styles */\n@media only screen and (max-width: 768px) {\n.video-container[data-v-294fd0be] {\n    height: 50vh;\n}\n}\n", ""]);
 
 // exports
 
@@ -9271,7 +9379,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.chat{\n\t\t\tmargin-top: auto;\n\t\t\tmargin-bottom: auto;\n}\n.card{\n\t\t\theight: 500px;\n\t\t\tborder-radius: 15px !important;\n}\n.contacts_body{\n\t\t\tpadding:  0.75rem 0 !important;\n\t\t\toverflow-y: auto;\n\t\t\twhite-space: nowrap;\n}\n.msg_card_body{\n\t\t\toverflow-y: auto;\n}\n.card-header{\n\t\t\tborder-radius: 15px 15px 0 0 !important;\n\t\t\tborder-bottom: 0 !important;\n}\n.card-footer{\n\t\tborder-radius: 0 0 15px 15px !important;\n\t\t\tborder-top: 0 !important;\n}\n.container{\n\t\t\talign-content: center;\n}\n.search{\n\t\t\tborder-radius: 15px 0 0 15px !important;\n\t\t\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor:white !important;\n}\n.search:focus{\n\t\t     box-shadow:none !important;\n           outline:0px !important;\n}\n.type_msg{\n\t\t\tborder:0 !important;\n\t\t\toverflow-y: auto;\n}\n.type_msg:focus{\n\t\t     box-shadow:none !important;\n           outline:0px !important;\n}\n.attach_btn{\n\tborder-radius: 15px 0 0 15px !important;\n\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor: white !important;\n\t\t\tcursor: pointer;\n}\n.send_btn{\n            border-radius: 0 15px 15px 0 !important;\n            background-color: rgba(0,0,0,0.3) !important;\n            border:0 !important;\n            color: white !important;\n            cursor: pointer;\n}\n.search_btn{\n\t\t\tborder-radius: 0 15px 15px 0 !important;\n\t\t\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor: white !important;\n\t\t\tcursor: pointer;\n}\n.contacts{\n\t\t\tlist-style: none;\n\t\t\tpadding: 0;\n}\n.contacts li{\n\t\t\twidth: 100% !important;\n\t\t\tpadding: 5px 10px;\n\t\t\tmargin-bottom: 15px !important;\n}\n.active{\n\t\t\tbackground-color: rgba(0,0,0,0.3);\n}\n.user_img{\n\t\t\theight: 70px;\n\t\t\twidth: 70px;\n\t\t\tborder:1.5px solid #f5f6fa;\n}\n.user_img_msg{\n\t\t\theight: 40px;\n\t\t\twidth: 40px;\n\t\t\tborder:1.5px solid #f5f6fa;\n}\n.img_cont{\n\t\t\tposition: relative;\n\t\t\theight: 70px;\n\t\t\twidth: 70px;\n}\n.img_cont_msg{\n\t\t\theight: 40px;\n\t\t\twidth: 40px;\n}\n.online_icon{\n\t\tposition: absolute;\n\t\theight: 15px;\n\t\twidth:15px;\n\t\tbackground-color: #4cd137;\n\t\tborder-radius: 50%;\n\t\tbottom: 0.2em;\n\t\tright: 0.4em;\n\t\tborder:1.5px solid white;\n}\n.offline{\n\t\tbackground-color: #c23616 !important;\n}\n.user_info{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-left: 15px;\n}\n.user_info span{\n\t\tfont-size: 20px;\n\t\tcolor: white;\n}\n.user_info p{\n\tfont-size: 10px;\n\tcolor: rgba(255,255,255,0.6);\n}\n.video_cam{\n\t\tmargin-left: 50px;\n\t\tmargin-top: 5px;\n}\n.video_cam span{\n\t\tcolor: white;\n\t\tfont-size: 20px;\n\t\tcursor: pointer;\n\t\tmargin-right: 20px;\n}\n.msg_cotainer{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-left: 10px;\n\t\tborder-radius: 25px;\n\t\tbackground-color: #82ccdd;\n\t\tpadding: 10px;\n\t\tposition: relative;\n}\n.msg_cotainer_send{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-right: 10px;\n\t\tborder-radius: 25px;\n\t\tbackground-color: #78e08f;\n\t\tpadding: 10px;\n\t\tposition: relative;\n}\n.msg_time{\n\t\tposition: absolute;\n\t\tleft: 0;\n\t\tbottom: -15px;\n\t\tcolor: rgba(10, 10, 10, 0.5);\n\t\tfont-size: 10px;\n}\n.msg_time_send{\n\t\tposition: absolute;\n\t\tright:0;\n\t\tbottom: -15px;\n\t\tcolor: rgba(8, 8, 8, 0.5);\n\t\tfont-size: 10px;\n}\n.msg_head{\n\t\tposition: relative;\n}\n#action_menu_btn{\n\t\tposition: absolute;\n\t\tright: 10px;\n\t\ttop: 10px;\n\t\tcolor: white;\n\t\tcursor: pointer;\n\t\tfont-size: 20px;\n}\n.action_menu{\n\t\tz-index: 1;\n\t\tposition: absolute;\n\t\tpadding: 15px 0;\n\t\tbackground-color: rgba(0,0,0,0.5);\n\t\tcolor: white;\n\t\tborder-radius: 15px;\n\t\ttop: 30px;\n\t\tright: 15px;\n\t\tdisplay: none;\n}\n.action_menu ul{\n\t\tlist-style: none;\n\t\tpadding: 0;\n\tmargin: 0;\n}\n.action_menu ul li{\n\t\twidth: 100%;\n\t\tpadding: 10px 15px;\n\t\tmargin-bottom: 5px;\n}\n.action_menu ul li i{\n\t\tpadding-right: 10px;\n}\n.action_menu ul li:hover{\n\t\tcursor: pointer;\n\t\tbackground-color: rgba(0,0,0,0.2);\n}\n@media(max-width: 576px){\n.contacts_card{\n\t\tmargin-bottom: 15px !important;\n}\n}\n.fa-location-arrow{\n        margin-top: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.chat{\n\t\t\tmargin-top: auto;\n\t\t\tmargin-bottom: auto;\n}\n.card{\n\t\t\theight: 500px;\n\t\t\tborder-radius: 15px !important;\n}\n.contacts_body{\n\t\t\tpadding:  0.75rem 0 !important;\n\t\t\toverflow-y: auto;\n\t\t\twhite-space: nowrap;\n}\n.msg_card_body{\n\t\t\toverflow-y: auto;\n}\n.card-header{\n\t\t\tborder-radius: 15px 15px 0 0 !important;\n\t\t\tborder-bottom: 0 !important;\n}\n.card-footer{\n\t\tborder-radius: 0 0 15px 15px !important;\n\t\t\tborder-top: 0 !important;\n}\n.container{\n\t\t\talign-content: center;\n}\n.search{\n\t\t\tborder-radius: 15px 0 0 15px !important;\n\t\t\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor:white !important;\n}\n.search:focus{\n\t\t     box-shadow:none !important;\n           outline:0px !important;\n}\n.type_msg{\n\t\t\tborder:0 !important;\n\t\t\toverflow-y: auto;\n}\n.type_msg:focus{\n\t\t     box-shadow:none !important;\n           outline:0px !important;\n}\n.attach_btn{\n\tborder-radius: 15px 0 0 15px !important;\n\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor: white !important;\n\t\t\tcursor: pointer;\n}\n.send_btn{\n            border-radius: 0 15px 15px 0 !important;\n            background-color: rgba(0,0,0,0.3) !important;\n            border:0 !important;\n            color: white !important;\n            cursor: pointer;\n}\n.search_btn{\n\t\t\tborder-radius: 0 15px 15px 0 !important;\n\t\t\tbackground-color: rgba(0,0,0,0.3) !important;\n\t\t\tborder:0 !important;\n\t\t\tcolor: white !important;\n\t\t\tcursor: pointer;\n}\n.contacts{\n\t\t\tlist-style: none;\n\t\t\tpadding: 0;\n}\n.contacts li{\n\t\t\twidth: 100% !important;\n\t\t\tpadding: 5px 10px;\n\t\t\tmargin-bottom: 15px !important;\n}\n.active{\n\t\t\tbackground-color: rgba(0,0,0,0.3);\n}\n.user_img{\n\t\t\theight: 70px;\n\t\t\twidth: 70px;\n\t\t\tborder:1.5px solid #f5f6fa;\n}\n.user_img_msg{\n\t\t\theight: 40px;\n\t\t\twidth: 40px;\n\t\t\tborder:1.5px solid #f5f6fa;\n}\n.img_cont{\n\t\t\tposition: relative;\n\t\t\theight: 70px;\n\t\t\twidth: 70px;\n}\n.img_cont_msg{\n\t\t\theight: 40px;\n\t\t\twidth: 40px;\n}\n.online_icon{\n\t\tposition: absolute;\n\t\theight: 15px;\n\t\twidth:15px;\n\t\tbackground-color: #4cd137;\n\t\tborder-radius: 50%;\n\t\tbottom: 0.2em;\n\t\tright: 0.4em;\n\t\tborder:1.5px solid white;\n}\n.offline{\n\t\tbackground-color: #c23616 !important;\n}\n.user_info{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-left: 15px;\n}\n.user_info span{\n\t\tfont-size: 20px;\n\t\tcolor: white;\n}\n.user_info p{\n\tfont-size: 10px;\n\tcolor: rgba(255,255,255,0.6);\n}\n.video_cam{\n\t\tmargin-left: 50px;\n\t\tmargin-top: 5px;\n}\n.video_cam span{\n\t\tcolor: white;\n\t\tfont-size: 20px;\n\t\tcursor: pointer;\n\t\tmargin-right: 20px;\n}\n.msg_cotainer{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-left: 10px;\n\t\tborder-radius: 25px;\n\t\tbackground-color: #82ccdd;\n\t\tpadding: 10px;\n\t\tposition: relative;\n}\n.msg_cotainer_send{\n\t\tmargin-top: auto;\n\t\tmargin-bottom: auto;\n\t\tmargin-right: 10px;\n\t\tborder-radius: 25px;\n\t\tbackground-color: #78e08f;\n\t\tpadding: 10px;\n\t\tposition: relative;\n}\n.msg_time{\n\t\tposition: absolute;\n\t\tleft: 0;\n\t\tbottom: -15px;\n\t\tcolor: rgba(10, 10, 10, 0.5);\n\t\tfont-size: 10px;\n}\n.msg_time_send{\n\t\tposition: absolute;\n\t\tright:0;\n\t\tbottom: -15px;\n\t\tcolor: rgba(8, 8, 8, 0.5);\n\t\tfont-size: 10px;\n}\n.msg_head{\n\t\tposition: relative;\n}\n#action_menu_btn{\n\t\tposition: absolute;\n\t\tright: 10px;\n\t\ttop: 10px;\n\t\tcolor: white;\n\t\tcursor: pointer;\n\t\tfont-size: 20px;\n}\n.action_menu{\n\t\tz-index: 1;\n\t\tposition: absolute;\n\t\tpadding: 15px 0;\n\t\tbackground-color: rgba(0,0,0,0.5);\n\t\tcolor: white;\n\t\tborder-radius: 15px;\n\t\ttop: 30px;\n\t\tright: 15px;\n\t\tdisplay: none;\n}\n.action_menu ul{\n\t\tlist-style: none;\n\t\tpadding: 0;\n\tmargin: 0;\n}\n.action_menu ul li{\n\t\twidth: 100%;\n\t\tpadding: 10px 15px;\n\t\tmargin-bottom: 5px;\n}\n.action_menu ul li i{\n\t\tpadding-right: 10px;\n}\n.action_menu ul li:hover{\n\t\tcursor: pointer;\n\t\tbackground-color: rgba(0,0,0,0.2);\n}\n@media(max-width: 576px){\n.contacts_card{\n\t\tmargin-bottom: 15px !important;\n}\n}\n.fa-location-arrow{\n        margin-top: 15px;\n}\n\t\n", ""]);
 
 // exports
 
@@ -54296,6 +54404,95 @@ function config (name) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/card/PayPalPayment.vue?vue&type=template&id=2076e65f&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/card/PayPalPayment.vue?vue&type=template&id=2076e65f& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container row" }, [
+    _c("div", { staticClass: "col-md-4" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-6" }, [
+      _c("p", { staticStyle: { color: "blue" } }, [
+        _vm._v(
+          "\n            By default we set $10 for your gift thanks\n        "
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", [_vm._v("Gift Price : $")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.product.price,
+              expression: "product.price"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { placeholder: "Gift Price :" },
+          domProps: { value: _vm.product.price },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.product, "price", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", [_vm._v("Payment description : $")]),
+        _vm._v(" "),
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.product.description,
+              expression: "product.description"
+            }
+          ],
+          staticClass: "form-control",
+          domProps: { value: _vm.product.description },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.product, "description", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "paypal-button-container" } })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-2" })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/chat-content/ChatContent.vue?vue&type=template&id=294fd0be&scoped=true&":
 /*!***************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/chat-content/ChatContent.vue?vue&type=template&id=294fd0be&scoped=true& ***!
@@ -54392,7 +54589,7 @@ var render = function() {
                                 : _vm._e()
                             ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "action-btns" }, [
+                        _c("div", { staticClass: "action-btns " }, [
                           _c(
                             "button",
                             {
@@ -54701,17 +54898,11 @@ var render = function() {
                 _c("div", { staticClass: "user_info" }, [
                   _c("span", { staticStyle: { color: "black" } }, [
                     _vm._v("Chat with " + _vm._s(_vm.user.name))
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("1767 Messages")])
-                ]),
-                _vm._v(" "),
-                _vm._m(0)
+                  ])
+                ])
               ]),
               _vm._v(" "),
-              _vm._m(1),
-              _vm._v(" "),
-              _vm._m(2)
+              _vm._m(0)
             ]),
             _vm._v(" "),
             _c(
@@ -54821,7 +55012,7 @@ var render = function() {
                 _c(
                   "span",
                   {
-                    staticClass: "input-group-text send_btn",
+                    staticClass: "input-group-text send_btn pl-2 pr-2",
                     on: { click: _vm.sendMessage }
                   },
                   [_c("i", { staticClass: "fas fa-location-arrow" })]
@@ -54839,43 +55030,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "video_cam" }, [
-      _c("span", [_c("i", { staticClass: "fas fa-video" })]),
-      _vm._v(" "),
-      _c("span", [_c("i", { staticClass: "fas fa-phone" })])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("span", { attrs: { id: "action_menu_btn" } }, [
       _c("i", { staticClass: "fas fa-ellipsis-v" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "action_menu" }, [
-      _c("ul", [
-        _c("li", [
-          _c("i", { staticClass: "fas fa-user-circle" }),
-          _vm._v(" View profile")
-        ]),
-        _vm._v(" "),
-        _c("li", [
-          _c("i", { staticClass: "fas fa-users" }),
-          _vm._v(" Add to close friends")
-        ]),
-        _vm._v(" "),
-        _c("li", [
-          _c("i", { staticClass: "fas fa-plus" }),
-          _vm._v(" Add to group")
-        ]),
-        _vm._v(" "),
-        _c("li", [_c("i", { staticClass: "fas fa-ban" }), _vm._v(" Block")])
-      ])
     ])
   }
 ]
@@ -70329,7 +70485,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_chat_content_ChatContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/chat-content/ChatContent */ "./resources/js/components/chat-content/ChatContent.vue");
-/* harmony import */ var _routes_api_route__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routes/api.route */ "./resources/js/routes/api.route.js");
+/* harmony import */ var _components_card_PayPalPayment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/card/PayPalPayment */ "./resources/js/components/card/PayPalPayment.vue");
+/* harmony import */ var _routes_api_route__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./routes/api.route */ "./resources/js/routes/api.route.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -70340,11 +70497,13 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
-  router: _routes_api_route__WEBPACK_IMPORTED_MODULE_2__["default"],
+  router: _routes_api_route__WEBPACK_IMPORTED_MODULE_3__["default"],
   components: {
-    ChatContent: _components_chat_content_ChatContent__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ChatContent: _components_chat_content_ChatContent__WEBPACK_IMPORTED_MODULE_1__["default"],
+    PayPalPayment: _components_card_PayPalPayment__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -70396,6 +70555,75 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   cluster: 'ap2',
   forceTLS: true
 });
+
+/***/ }),
+
+/***/ "./resources/js/components/card/PayPalPayment.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/card/PayPalPayment.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PayPalPayment_vue_vue_type_template_id_2076e65f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PayPalPayment.vue?vue&type=template&id=2076e65f& */ "./resources/js/components/card/PayPalPayment.vue?vue&type=template&id=2076e65f&");
+/* harmony import */ var _PayPalPayment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PayPalPayment.vue?vue&type=script&lang=js& */ "./resources/js/components/card/PayPalPayment.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PayPalPayment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PayPalPayment_vue_vue_type_template_id_2076e65f___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PayPalPayment_vue_vue_type_template_id_2076e65f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/card/PayPalPayment.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/card/PayPalPayment.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/card/PayPalPayment.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PayPalPayment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./PayPalPayment.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/card/PayPalPayment.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PayPalPayment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/card/PayPalPayment.vue?vue&type=template&id=2076e65f&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/card/PayPalPayment.vue?vue&type=template&id=2076e65f& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PayPalPayment_vue_vue_type_template_id_2076e65f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./PayPalPayment.vue?vue&type=template&id=2076e65f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/card/PayPalPayment.vue?vue&type=template&id=2076e65f&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PayPalPayment_vue_vue_type_template_id_2076e65f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PayPalPayment_vue_vue_type_template_id_2076e65f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

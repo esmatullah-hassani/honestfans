@@ -8,6 +8,7 @@ require('./bootstrap');
 
 import Vue from 'vue';
 import ChatContent from './components/chat-content/ChatContent';
+import PayPalPayment from './components/card/PayPalPayment';
 import router from './routes/api.route';
 
 const app = new Vue({
@@ -15,6 +16,7 @@ const app = new Vue({
     router,
     components:{
      ChatContent,
+     PayPalPayment
     },
  
   });

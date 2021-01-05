@@ -1,14 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row container" style="" >
+
+<div class="row container" >
 @if(count($posts) > 0)
 
     <div class="col-md-2 col-sm-12"></div>
    <div class="col-md-6">
     <div class="card" style="
     
-    height: 100px; width: 100%;"></div>
+    height: 100px; width: 100%;">
+    
+    </div>
    
     <div id="menu_infinite">
         @foreach($posts as $post)

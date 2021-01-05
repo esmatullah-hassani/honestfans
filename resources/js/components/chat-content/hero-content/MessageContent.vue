@@ -13,22 +13,11 @@
                         </div>
                         <div class="user_info">
                             <span style="color:black">Chat with {{user.name}}</span>
-                            <p>1767 Messages</p>
-                        </div>
-                        <div class="video_cam">
-                            <span><i class="fas fa-video"></i></span>
-                            <span><i class="fas fa-phone"></i></span>
+                            
                         </div>
                     </div>
                     <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
-                    <div class="action_menu">
-                        <ul>
-                            <li><i class="fas fa-user-circle"></i> View profile</li>
-                            <li><i class="fas fa-users"></i> Add to close friends</li>
-                            <li><i class="fas fa-plus"></i> Add to group</li>
-                            <li><i class="fas fa-ban"></i> Block</li>
-                        </ul>
-                    </div>
+                    
                 </div>
                 <div class="card-body msg_card_body">
                     
@@ -38,6 +27,8 @@
                             <div class="img_cont_msg">
                                  <img v-if="user.social_path!=null" :src="user.social_path"   class="rounded-circle user_img_msg">
                                 <img v-else :src="'/images/avatar/'+user.image"   class="rounded-circle user_img_msg">
+                           
+
                             </div>
                             <div class="msg_cotainer">
                             <p class="msg_time">8:40AM,Today</p>
@@ -63,7 +54,7 @@
                             <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                         </div> -->
                         <input name="" class="form-control type_msg" @keyup.enter="sendMessage" placeholder="Type your message..." v-model="message">
-                            <span @click="sendMessage" class="input-group-text send_btn"><i class="fas fa-location-arrow" ></i></span>
+                            <span @click="sendMessage" class="input-group-text send_btn pl-2 pr-2"><i class="fas fa-location-arrow" ></i></span>
                         
                     </div>
                 </div>
@@ -134,9 +125,6 @@ export default {
 		});
 		
 	},
-	created(){
-		console.log(this.allMessages);
-	}
     
     
 
@@ -359,4 +347,5 @@ export default {
     .fa-location-arrow{
         margin-top: 15px;
     }
+	
 </style>

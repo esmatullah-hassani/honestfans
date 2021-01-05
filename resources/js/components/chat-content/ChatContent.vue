@@ -40,7 +40,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="action-btns">
+                  <div class="action-btns ">
                     <button type="button" class="btn btn-info" @click="toggleMuteAudio">
                       {{ mutedAudio ? "Unmute" : "Mute" }}
                     </button>
@@ -506,6 +506,7 @@ export default {
   z-index: 3;
   display: flex;
   flex-direction: row;
+  align-content: center;
 }
 
 /* Mobiel Styles */
