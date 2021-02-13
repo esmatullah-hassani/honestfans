@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\StartVideoChat;
+use App\Events\UserLifeEvent;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,13 +49,22 @@ class ChatController extends Controller
         $data['from'] = Auth::id();
         $data['type'] = 'incomingCall';
 
-        broadcast(new StartVideoChat($data))->toOthers();
+        broadcast(new StartVideoChat($data,$request->user_to_call))->toOthers();
     }
     public function acceptCall(Request $request)
     {
         $data['signal'] = $request->signal;
         $data['to'] = $request->to;
+        $data['from'] = $request->from;
         $data['type'] = 'callAccepted';
-        broadcast(new StartVideoChat($data))->toOthers();
+        broadcast(new StartVideoChat($data,$request->to))->toOthers();
+    }
+
+    public function callUserLife(Request $request)
+    {
+        $data['signalData'] = $request->signal_data;
+        $data['from'] = Auth::id();
+        $data['type'] = 'incomingCall';
+        broadcast(new UserLifeEvent($data))->toOthers();
     }
 }

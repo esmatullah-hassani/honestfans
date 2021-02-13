@@ -4,25 +4,24 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StartVideoChat implements ShouldBroadcast
+class UserLifeEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $data;
-    public $user_to_call;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($data,$user_to_call)
+    public function __construct($data)
     {
         $this->data = $data;
-        $this->user_to_call = $user_to_call;
     }
 
     /**
@@ -32,6 +31,6 @@ class StartVideoChat implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('presence-video-channel-'.$this->user_to_call);
+        return new PrivateChannel('life-channel');
     }
 }

@@ -60,4 +60,11 @@ class User extends Authenticatable
     public function messages(){
         return $this->hasMany(Message::class,'user_1','id');
     }
+
+    /**
+     * The user that has one coin
+     */
+    public function coin(){
+        return $this->hasMany(Coin::class);
+    }
 }

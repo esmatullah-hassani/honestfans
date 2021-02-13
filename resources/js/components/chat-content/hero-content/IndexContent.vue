@@ -1,12 +1,13 @@
 <template>
   <div class="container ">
-      Select any user to chat
+      {viewtext}
   </div>
 </template>
 
 <script>
 export default {
     name:"IndexContent",
+    props:['viewtext']
 }
 </script>
 

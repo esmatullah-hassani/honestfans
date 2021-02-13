@@ -12497,9 +12497,7 @@ label.panel-block:hover {
   background-position: center;
 }
 
-.image-upload.hidden > * {
-  opacity: 0;
-}
+
 
 .image-upload:hover > * {
   -webkit-transition: opacity 0.3s ease-in;
@@ -13132,6 +13130,10 @@ hb-hidden:hover{
   .search-dropdown{
     justify-content: center;
     width: 35%;margin-left: 0%;
+
+  }
+  .video-button{
+    float: right;
   }
 }
 
@@ -13182,6 +13184,12 @@ hb-hidden:hover{
 @media screen and (max-width:680px){
   .ml-25{
     margin-left: 0;
+  }
+}
+
+@media screen and (max-width:550px){
+  .video-container .action-btns{
+    left: 20% !important;
   }
 }
 

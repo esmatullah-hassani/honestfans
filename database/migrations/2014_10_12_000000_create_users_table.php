@@ -13,8 +13,8 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('image')->default('default.png');
             $table->string('name');
+            $table->string('image')->default('default.png');
             $table->string('display_name')->nullable();
             $table->string('biography')->nullable();
             $table->string('email')->nullable()->unique();
@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('google_id')->nullable();
             $table->string("facebook_id")->nullable();
             $table->string('social_path')->nullable();
-
+            $table->integer("type")->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

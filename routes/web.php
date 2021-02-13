@@ -12,8 +12,10 @@
 */
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CoinController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PayPalPaymentController;
+use App\Http\Controllers\UsersController;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,6 +38,7 @@ Route::get('/authorized/facebook', 'LoginWithSocialiteController@redirectTofaceb
 Route::get('/authorized/facebook/callback', 'LoginWithSocialiteController@handleFacebookCallback');
 
 Auth::routes();
+
 Route::get("/verify-user-email/{email}/{id}","UsersController@registerVerifyUser");
 Route::middleware(['auth'])->group(function () {
     //Post routes
@@ -46,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posts/{post}', 'PostsController@show')->name('posts.show');
     Route::get('/posts/{post}/edit', 'PostsController@edit')->name('posts.edit');
     Route::get("/posts/{id}/details","PostsController@postDetails")->name("posts.details");
-    Route::put('/posts', 'PostsController@store')->name('posts.store');
+    Route::post('/posts', 'PostsController@store');
     Route::post('/posts/{post}', 'PostsController@like')->name('posts.like');
     Route::patch('/posts/{post}', 'PostsController@update')->name('posts.update');
     Route::delete('/posts/{post}', 'PostsController@destroy')->name('posts.destroy');
@@ -89,15 +92,36 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/video/call-user', [ChatController::class,'callUser']);
     Route::post('/video/accept-call', [ChatController::class,'acceptCall']);
 
+    Route::post('/video/life-chat', [ChatController::class,'callUserLife']);
+
     Route::get("/users/message/{user_1}/{user_2}",[MessageController::class,'index']);
     Route::post("/users/message",[MessageController::class,'store']);
+    Route::get('/video-chat', function () {
+        // fetch all users apart from the authenticated user
+        $users = User::where('id', '<>', Auth::id())->get();
+        return view('chats.chat', ['users' => $users]);
+    })->name("chats");
+    
+    Route::get('/life-video', function () {
+        // fetch all users apart from the authenticated user
+        $users = User::where('id', '<>', Auth::id())->get();
+        return view('chats.life-video', ['users' => $users]);
+    })->name("life-video");
 
+    //Logout route
+    Route::get("/logout",[UsersController::class,'logOut']);
+
+    //
+    Route::post("/check-coin",[CoinController::class,'checkCoin']);
+
+    Route::post("/bye-coin",[CoinController::class,'store']);
+
+    Route::post("/set-gift",[CoinController::class,'setGift']);
+
+    //setting routes
+    Route::resource("/settings",SettingsController::class);
 });
-Route::get('/video-chat', function () {
-    // fetch all users apart from the authenticated user
-    $users = User::where('id', '<>', Auth::id())->get();
-    return view('chats.chat', ['users' => $users]);
-})->name("chats");
+
 
 
 

@@ -73,8 +73,13 @@
                     @if(Auth::check())
                     <a class="navbar-item" href="{{ url('/') }}">
                         <!-- <img src='{{ asset("svg/photoify_logo.png")}}' style="max-height: 2.3rem;" width="100px"> -->
-                        There is logo
+                        Logo
                     </a>
+                    @if(Auth::user()->type == 1)
+                    <a class="navbar-item" href="{{ url('/settings') }}">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    @endif
                     
                     
                     @endif
@@ -89,24 +94,27 @@
                         
                             
 
-                            <a class="navbar-item" href="{{ route('posts') }}" title="home">
+                            <a class="navbar-item" @if(Request::is('posts') || Request::is('posts/*/details')) style="color: blue;" @endif href="{{ route('posts') }}" title="home">
                                 <i class="fas fa-home"></i>
                             </a>
                             
-                            <a class="navbar-item" href="{{ route('chats') }}" title="Messanger">
+                            <a class="navbar-item" @if(Request::is('video-chat')) style="color: blue;" @endif href="{{ route('chats') }}" title="Messanger">
                                 <i class="fas fa-comment-dots"></i>
                             </a>
-
-                            <a class="navbar-item" href="{{ route('posts.create') }}" title="New post">
+                            
+                            <a class="navbar-item" @if(Request::is('life-video')) style="color: blue;" @endif href="{{ route('life-video') }}" title="Life">
+                                <i class="fas fa-video"></i>
+                            </a>
+                            <a class="navbar-item"  @if(Request::is('posts/create')) style="color: blue;" @endif href="{{ route('posts.create') }}" title="New post">
                                 <i class="fas fa-camera-retro"></i>
                             </a>
                             
-                            <a class="navbar-item" href="{{ route('posts.following') }}" title="Followers">
-                                <i class="fas fa-user-friends"></i>
+                            <a class="navbar-item"  @if(Request::is('posts/following')) style="color: blue;" @endif  href="{{ route('posts.following') }}" title="Followers">
+                                <i class="fas fa-user-friends" ></i>
                             </a>
-                            <a class="navbar-item" href="{{ route('posts.liked') }}" title="Posts like">
+                            <!-- <a class="navbar-item" href="{{ route('posts.liked') }}" title="Posts like">
                                 <i class="fas fa-heart "  ></i>
-                            </a>
+                            </a> -->
                             <div>
                             <figure class="image is-22x22 mp" data-toggle="dropdown">
                             @if(auth()->user()->social_path != "")
@@ -116,8 +124,8 @@
                             @endif
                             </figure>
                             <ul class="dropdown-menu profile-dropdown">
-                            <li class="ml-15 mt-10 mb-8" ><a href="/user/{{auth()->user()->id}}" class="color-dark hb-hidden"><i class="fa fa-user-circle" aria-hidden="true"> </i> Profile</a></li>
-                            <li class="ml-15 mt-10 mb-8"><a href="{{route('account')}}" class="hb-hidden color-dark"><i class="fas fa-cog"></i>Settings</a></li>
+                            <li class="ml-15 mt-10 mb-8" ><a @if(Request::is('user/*')  ) style="color: blue;" @endif href="/user/{{auth()->user()->id}}" class="color-dark hb-hidden"><i class="fa fa-user-circle" aria-hidden="true"> </i> Profile</a></li>
+                            <li class="ml-15 mt-10 mb-8"><a  @if(Request::is('account/settings')) style="color: blue;" @endif href="{{route('account')}}" class="hb-hidden color-dark"><i class="fas fa-cog"></i>Settings</a></li>
                             <hr>
                             <li class="ml-15 mt-10 mb-8" class="hb-hidden">
                             <form method="POST" action="{{ route('logout') }}">

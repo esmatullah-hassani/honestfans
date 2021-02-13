@@ -41,18 +41,17 @@
                     </div>
                   </div>
                   <div class="action-btns ">
-                    <button type="button" class="btn btn-info" @click="toggleMuteAudio">
-                      {{ mutedAudio ? "Unmute" : "Mute" }}
-                    </button>
-                    <button
+                   
+                    <button 
                       type="button"
-                      class="btn btn-primary mx-4"
+                      class="btn btn-primary mx-4 mp"
                       @click="toggleMuteVideo"
                     >
-                      {{ mutedVideo ? "ShowVideo" : "HideVideo" }}
+                      {{ mutedVideo ? "Show" : "Hide" }}
                     </button>
-                    <button type="button" class="btn btn-danger" @click="endCall">
-                      EndCall
+                    <br>
+                    <button type="button" class="btn btn-danger mp" @click="endCall">
+                      End
                     </button>
                   </div>
                 </div>
@@ -89,7 +88,7 @@
             <a href="#modal-call" uk-toggle
               type="button"
               class="btn btn-success ml-5"
-              @click="acceptCall"
+              @click="acceptCall(videoCallParams.re_call_to)"
             >
               Accept
             </a>
@@ -105,12 +104,13 @@
                     :turn_credential="turn_credential"
                     :allMessages="allMessages"
                     :user="user"
-                />
+                    :viewtext="viewtext"
+                >Select </router-view>
             </div>
             <div class="col-md-4" style="overflow-y: scroll;max-height:500px; ">
                 <div class="row" style="display: inline-block; margin-top: 10px; width: 100%; " v-for="user in allusers" v-bind:key="user.id">
                         
-                        <div class="row">
+                        <div class="row" >
                             <div class="col-md-10">
                                 <router-link to="" tabindex="0" style="width: 56px; height: 56px;">
                     
@@ -126,7 +126,7 @@
                                 </a>
                             </div>
                             <div class="col-md-2">
-                                <a type="button" class="mp btn-link" href="#modal-call" uk-toggle  @click="placeVideoCall(user.id, user.name)">
+                                <a type="button" class="mp btn-link video-button" href="#modal-call" uk-toggle  @click="placeVideoCall(user.id, user.name)">
                                     <i class="fas fa-video"  ></i>
                                 </a>
                                 
@@ -172,9 +172,11 @@ export default {
         channel: null,
         peer1: null,
         peer2: null,
+        re_call_to:null,
       },
       allMessages:[],
-      user:[]
+      user:[],
+      viewtext:"Select any user to chat",
     };
   },
 
@@ -187,7 +189,7 @@ export default {
     incomingCallDialog() {
       if (
         this.videoCallParams.receivingCall &&
-        this.videoCallParams.caller !== this.authuser.id.id
+        this.videoCallParams.caller !== this.authuser.id
       ) {
         return true;
       }
@@ -228,7 +230,7 @@ export default {
           })
      },
     initializeChannel() {
-      this.videoCallParams.channel = window.Echo.join("presence-video-channel");
+      this.videoCallParams.channel = window.Echo.join("presence-video-channel-"+this.authuser.id);
     },
 
     getMediaPermission() {
@@ -297,7 +299,7 @@ export default {
           .post("/video/call-user", {
             user_to_call: id,
             signal_data: data,
-            from: this.authuser.id.id,
+            from: this.authuser.id,
           })
           .then(() => {})
           .catch((error) => {
@@ -341,7 +343,7 @@ export default {
       });
     },
 
-    async acceptCall() {
+    async acceptCall(recall_id) {
       this.callPlaced = true;
       this.videoCallParams.callAccepted = true;
       await this.getMediaPermission();
@@ -357,6 +359,7 @@ export default {
           .post("/video/accept-call", {
             signal: data,
             to: this.videoCallParams.caller,
+            from:this.videoCallParams.re_call_to,
           })
           .then(() => {})
           .catch((error) => {
@@ -515,4 +518,6 @@ export default {
     height: 50vh;
   }
 }
+
+
 </style>

@@ -68,7 +68,7 @@ class UsersController extends Controller
             $request->image->move(public_path('images').'/avatar/', $imageName);
 
             $user->image = $imageName;
-            $user->social_path = "";
+            $user->social_path = null;
         }
         else{
             $user->image = "default.png";
@@ -192,5 +192,14 @@ class UsersController extends Controller
         else{
             return "errors";
         }
+    }
+
+    /**
+     * Log out user
+     */
+    public function logOut()
+    {
+        Auth::logout();
+        return redirect("/");
     }
 }

@@ -219,7 +219,7 @@ class PostsController extends Controller
 
         $post->save();
         toast('Your Post has been posted!','success');
-        return redirect('posts/'.$post->id);
+        return response(['status'=> true,'message' => $post->id]);
     }
 
     /**

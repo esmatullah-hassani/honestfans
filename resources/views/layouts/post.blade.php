@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="card-image">
-        <video width="100%" height="auto" controls controlsList="nodownload" >
+        <video  width="100%" height="auto" controls  controlsList="nodownload" >
             <source src="{{ route('get-video',$post->video_path) }}" type="video/webm">
             Your browser does not support the video tag.
         </video>
